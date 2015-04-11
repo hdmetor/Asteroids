@@ -8,6 +8,10 @@ class Spaceship {
 public:
     Spaceship(float xx, float yy);
     void DrawSpaceship();
+    void Fire();
+    void moveLeft();
+    void moveRight();
+    void passTime();
 //private:
 	float x;
     float y;

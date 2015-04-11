@@ -7,6 +7,7 @@
 
 using namespace std;
 
+const float deltaDegree = .2;
 //ALLEGRO_COLOR red = al_map_rgb(255,0,0);
 
 void printSpaseship(ALLEGRO_COLOR color) {
@@ -37,4 +38,21 @@ void Spaceship::DrawSpaceship() {
 	al_draw_line(0, -11, 8, 9, color, 3.0f); 
 	al_draw_line(-6, 4, -1, 4, color, 3.0f); 
 	al_draw_line(6, 4, 1, 4, color, 3.0f);
+}
+
+void Spaceship::moveLeft() {
+	direction -= deltaDegree;
+}
+
+void Spaceship::moveRight() {
+	direction += deltaDegree;
+}
+
+void Spaceship::Fire() {
+	cout << "FIRE" << endl;
+}
+
+void Spaceship::passTime() {
+	x += 1;
+	y += 1;
 }
