@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 #include "init.h"
+#include <allegro5/allegro_primitives.h>
+#include "spaceship.h"
+#include <iostream>
 
+using namespace std;
 
 float FPS = 60;
 int SCREEN_W = 800;
@@ -42,7 +46,19 @@ int main(int argc, char **argv)
       al_destroy_timer(timer);
       return -1;
    }
- 
+
+   al_clear_to_color(al_map_rgb(0,0,0));
+   al_rest(1.0);
+   al_draw_line(400,400,450,450,al_map_rgb(255,0,0),3);
+   
+   Spaceship* spaceship = new Spaceship(100,100);
+   spaceship->DrawSpaceship();
+   delete spaceship;
+   
+   al_flip_display();
+   al_rest(1.0);
+   al_destroy_display(display);
+ /*
    // init bouncer
    bouncer = al_create_bitmap(BOUNCER_SIZE, BOUNCER_SIZE);
    if(!bouncer) {
@@ -51,7 +67,9 @@ int main(int argc, char **argv)
       al_destroy_timer(timer);
       return -1;
    }
- 
+
+*/   
+ /*
    al_set_target_bitmap(bouncer);
  
    al_clear_to_color(al_map_rgb(255, 0, 255));
@@ -79,7 +97,10 @@ int main(int argc, char **argv)
  
    al_start_timer(timer);
  
+*/
+
   // main loop
+/*
    while(!doexit)
    {
      
@@ -167,6 +188,6 @@ int main(int argc, char **argv)
    al_destroy_timer(timer);
    al_destroy_display(display);
    al_destroy_event_queue(event_queue);
- 
+ */
    return 0;
 }
