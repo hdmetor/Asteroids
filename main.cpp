@@ -13,7 +13,7 @@ int SCREEN_H = 600;
 
 const int BOUNCER_SIZE = 32;
 enum MYKEYS {
-   KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
+   KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESCAPE, KEY_SPACE
 };
  
 int main(int argc, char **argv)
@@ -23,12 +23,9 @@ int main(int argc, char **argv)
    }
    
    ALLEGRO_DISPLAY *display = NULL;
-   //ALLEGRO_EVENT_QUEUE *event_queue = NULL;
    ALLEGRO_TIMER *timer = NULL;
    ALLEGRO_BITMAP *bouncer = NULL;
-   float bouncer_x = SCREEN_W / 2.0 - BOUNCER_SIZE / 2.0;
-   float bouncer_y = SCREEN_H / 2.0 - BOUNCER_SIZE / 2.0;
-   bool key[4] = { false, false, false, false };
+   bool key[] = { false, false, false, false, false, false };
    bool redraw = true;
    bool doexit = false;
  
@@ -49,7 +46,7 @@ int main(int argc, char **argv)
 
    al_clear_to_color(al_map_rgb(0,0,0));
    
-   Spaceship* spaceship = new Spaceship(100,100);
+   Spaceship* spaceship = new Spaceship(100,100, 0);
    spaceship->DrawSpaceship();
 
    ALLEGRO_EVENT_QUEUE *event_queue; 
@@ -75,31 +72,91 @@ int main(int argc, char **argv)
       ALLEGRO_EVENT event;
       al_wait_for_event(event_queue, &event);
  
+      // allow keeping key pressed
       if(event.type == ALLEGRO_EVENT_TIMER) {
+
+         if(key[KEY_UP]) {
+            spaceship->accelerate();
+            cout << "UPPING" << endl;
+         }
+ 
+         if(key[KEY_DOWN]) {
+            spaceship->decelerate();
+            cout << "DOWING" << endl;
+         }
+ 
+         if(key[KEY_LEFT]) {
+            spaceship->moveLeft();
+            cout << "LEFTING" << endl;
+         }
+ 
+         if(key[KEY_RIGHT]) {
+            spaceship->moveRight();
+            cout << "RIGHTING" << endl;
+         }
+ 
+         if(key[KEY_SPACE]) {
+            spaceship->Fire();
+            cout << "FIRING" << endl;
+         }
+
          spaceship->passTime();
          redraw = true;
       }
-
-      if (event.type == ALLEGRO_EVENT_KEY_DOWN) { 
+      // press a key
+      else if(event.type == ALLEGRO_EVENT_KEY_DOWN) {
          switch(event.keyboard.keycode) {
-            case ALLEGRO_KEY_LEFT:
-               redraw = true;
-               spaceship->moveLeft();
+            case ALLEGRO_KEY_UP:
+               key[KEY_UP] = true;
                break;
+ 
+            case ALLEGRO_KEY_DOWN:
+               key[KEY_DOWN] = true;
+               break;
+ 
+            case ALLEGRO_KEY_LEFT: 
+               key[KEY_LEFT] = true;
+               break;
+ 
             case ALLEGRO_KEY_RIGHT:
-               redraw = true;
-               spaceship->moveRight();
+               key[KEY_RIGHT] = true;
                break;
+
             case ALLEGRO_KEY_SPACE:
-               spaceship->Fire();
-               redraw = true;
-               break; 
+               key[KEY_SPACE] = true;
+               break;
+         }
+      }
+      // release a key
+      else if(event.type == ALLEGRO_EVENT_KEY_UP) {
+         switch(event.keyboard.keycode) {
+            case ALLEGRO_KEY_UP:
+               key[KEY_UP] = false;
+               break;
+ 
+            case ALLEGRO_KEY_DOWN:
+               key[KEY_DOWN] = false;
+               break;
+ 
+            case ALLEGRO_KEY_LEFT: 
+               key[KEY_LEFT] = false;
+               break;
+ 
+            case ALLEGRO_KEY_RIGHT:
+               key[KEY_RIGHT] = false;
+               break;
+
+            case ALLEGRO_KEY_SPACE:
+               key[KEY_SPACE] = true;
+               break;
+ 
             case ALLEGRO_KEY_ESCAPE:
                doexit = true;
                break;
          }
+      }
 
-      } else if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+      if(event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
          break;
       }
 

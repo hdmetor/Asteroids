@@ -4,10 +4,10 @@
 #include <allegro5/transformations.h>
 #include "spaceship.h"
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
-const float deltaDegree = .2;
 //ALLEGRO_COLOR red = al_map_rgb(255,0,0);
 
 void printSpaseship(ALLEGRO_COLOR color) {
@@ -18,13 +18,13 @@ void printSpaseship(ALLEGRO_COLOR color) {
 	
 }
 
-Spaceship::Spaceship(float xx, float yy) {
-	x = xx;
-	y = yy;
-	direction = 0;
-	speed = 0;
-	live = 1;
-	color = al_map_rgb(255,0,0);
+Spaceship::Spaceship(float x, float y, float direction) {
+	this->x = x;
+	this->y = y;
+	this->direction = direction;
+	this->speed = 0;
+	this->live = 1;
+	this->color = al_map_rgb(255,0,0);
 }
 
 void Spaceship::DrawSpaceship() {
@@ -40,12 +40,17 @@ void Spaceship::DrawSpaceship() {
 	al_draw_line(6, 4, 1, 4, color, 3.0f);
 }
 
-void Spaceship::moveLeft() {
-	direction -= deltaDegree;
+void Spaceship::moveLeft(const double delta) {
+	//direction -= delta;
+	//direction %= M_PI;
+	x -= 1;
 }
 
-void Spaceship::moveRight() {
-	direction += deltaDegree;
+void Spaceship::moveRight(const double delta) {
+	//direction += delta;
+	//direction %= M_PI;
+	x += 1;
+
 }
 
 void Spaceship::Fire() {
@@ -53,6 +58,16 @@ void Spaceship::Fire() {
 }
 
 void Spaceship::passTime() {
-	x += 1;
+	//x += 1;
+	//y += 1;
+}
+
+void Spaceship::accelerate(const int delta) {
+	//speed += deltaSpeed;
+	y -= 1;
+}
+
+void Spaceship::decelerate(const int delta) {
+	//speed -= deltaSpeed;
 	y += 1;
 }
