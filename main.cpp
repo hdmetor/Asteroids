@@ -2,7 +2,7 @@
 #include <allegro5/allegro.h>
 #include "init.h"
 #include <allegro5/allegro_primitives.h>
-#include "spaceship.h"
+#include "objects.h"
 #include <iostream>
 
 using namespace std;
@@ -47,7 +47,7 @@ int main(int argc, char **argv)
    al_clear_to_color(al_map_rgb(0,0,0));
    
    Spaceship* spaceship = new Spaceship(100,100, 0);
-   spaceship->DrawSpaceship();
+   spaceship->Draw();
 
    ALLEGRO_EVENT_QUEUE *event_queue; 
    event_queue = al_create_event_queue(); 
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
       if(redraw && al_is_event_queue_empty(event_queue)) {
          redraw = false;
          al_clear_to_color(al_map_rgb(0,0,0));
-         spaceship->DrawSpaceship();
+         spaceship->Draw();
          al_flip_display();
       }
    } 
