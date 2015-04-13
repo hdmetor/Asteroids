@@ -11,4 +11,5 @@ int init( float FPS = 60,  int SCREEN_W = 800,  int SCREEN_H = 600) {
       fprintf(stderr, "failed to initialize the keyboard!\n");
       return -1;
    }
+   return 0;
 }
