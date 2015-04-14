@@ -30,7 +30,7 @@ Object::Object (int x, int y, float direction) {
 Object::~Object() {
 }
 
-void Object::passTime() {
+void Object::Update() {
 	//x += 1;
 	//y += 1;
 }
@@ -47,7 +47,7 @@ void Spaceship::Draw() {
 	ALLEGRO_COLOR color = this->color;
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
-	al_rotate_transform(&transform, direction - M_PI/2); 
+	al_rotate_transform(&transform, direction); 
 	al_translate_transform(&transform, x, y); 
 	al_use_transform(&transform);
 	al_draw_line(-8, 9, 0, -11, color, 3.0f); 
@@ -56,17 +56,17 @@ void Spaceship::Draw() {
 	al_draw_line(6, 4, 1, 4, color, 3.0f);
 }
 
-void Spaceship::moveLeft(const int delta) {
-	//direction -= delta;
+void Spaceship::moveLeft(const float delta) {
+	this->direction -= delta;
 	//direction %= M_PI;
-	updateAndWrap(x, -delta, cylinder, screen_w);
+	//updateAndWrap(x, -delta, cylinder, screen_w);
 	
 }
 
-void Spaceship::moveRight(const int delta) {
-	//direction += delta;
+void Spaceship::moveRight(const float delta) {
+	this->direction += delta;
 	//direction %= M_PI;
-	updateAndWrap(x, delta, cylinder, screen_w);
+	//updateAndWrap(x, delta, cylinder, screen_w);
 
 }
 
@@ -85,9 +85,9 @@ void Spaceship::decelerate(const int delta) {
 	updateAndWrap(y, +delta, torus, screen_h);
 }
 
-void Spaceship::passTime() {
+void Spaceship::Update() {
 	x += speed * sin(direction);
-	y += speed * cos(direction); 
+	y += - speed * cos(direction); 
 }
 
 // Asteroid
@@ -99,7 +99,7 @@ Asteroid::~Asteroid(){
 
 }
 
-void Asteroid::passTime() {
+void Asteroid::Update() {
 	this->x+=1;
 }
 
@@ -143,7 +143,7 @@ void Shoot::Draw () {
 	al_draw_pixel(x, y, color);
 };
 
-void Shoot::passTime() {
+void Shoot::Update() {
 	int i = 0;
 }
 

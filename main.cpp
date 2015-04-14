@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <stdio.h>
+#include <math.h>
 //Allegro
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -71,8 +72,8 @@ int main(int argc, char **argv)
    al_clear_to_color(al_map_rgb(0,0,0));
 
 
-   Spaceship* spaceship = new Spaceship(100,100, 0);
-
+   Spaceship* spaceship = new Spaceship(100,100, + 1 *M_PI);
+   spaceship->speed = 3;
    vector<Object*> objects;
    objects.push_back(spaceship);
 
@@ -90,11 +91,12 @@ int main(int argc, char **argv)
       ALLEGRO_EVENT event;
       al_wait_for_event(event_queue, &event);
  
-      // allow keeping key pressed
+
       if(event.type == ALLEGRO_EVENT_TIMER) {
-         // GAME MECHANICS
+         
+         spaceship->Update();
          //for (int i = 0; i < objects.size(); i++) {
-            //objects[i]->passTime();
+            //objects[i]->Update();
          //};
          redraw = true;
 
