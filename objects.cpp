@@ -11,6 +11,8 @@
 int screen_w = 800;
 int screen_h = 600;
 
+const float maxSpeed = 5;
+
 bool cylinder = true;
 bool torus = true;
 
@@ -31,8 +33,8 @@ Object::~Object() {
 }
 
 void Object::Update() {
-	//x += 1;
-	//y += 1;
+	x += speed * sin(direction);
+	y += - speed * cos(direction); 
 }
 
 Spaceship::Spaceship(int x, int y, float direction): Object(x, y, direction) {
@@ -45,6 +47,12 @@ Spaceship::~Spaceship() {
 
 void Spaceship::Draw() {
 	ALLEGRO_COLOR color = this->color;
+	if (cylinder) {
+		x = (x % screen_w + screen_w) % screen_w;
+	}
+	if (torus) {
+		y = (y % screen_h + screen_h) % screen_h;
+	}
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
 	al_rotate_transform(&transform, direction); 
@@ -75,19 +83,22 @@ Shoot* Spaceship::Fire() {
 	return blast;
 }
 
-void Spaceship::accelerate(const int delta) {
-	//speed += deltaSpeed;
-	updateAndWrap(y, -delta, torus, screen_h);
+void Spaceship::accelerate(const float delta) {
+	speed += deltaSpeed;
+	if (speed > maxSpeed) {
+		speed = maxSpeed;
+	}
 }
 
-void Spaceship::decelerate(const int delta) {
-	//speed -= deltaSpeed;
-	updateAndWrap(y, +delta, torus, screen_h);
+void Spaceship::decelerate(const float delta) {
+	speed -= deltaSpeed / 2;
+	if (speed < 0) {
+		speed = 0;
+	}
 }
 
 void Spaceship::Update() {
-	x += speed * sin(direction);
-	y += - speed * cos(direction); 
+	Object::Update();
 }
 
 // Asteroid
@@ -153,5 +164,4 @@ void updateAndWrap(int& var, int diff, bool wrap, int max) {
 	if (wrap) {
 		var = (var % max + max) % max;
 	}
-
 }

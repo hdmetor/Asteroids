@@ -7,7 +7,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/transformations.h>
 
-const int deltaSpeed = 1;
+const float deltaSpeed = .5;
 const float deltaDegree = .09;
 //const int deltaDegree = 1;
 
@@ -42,8 +42,8 @@ public:
     Shoot* Fire();
     void moveLeft(const float delta = deltaDegree);
     void moveRight(const float delta = deltaDegree);
-    void accelerate(const int delta = deltaSpeed);
-    void decelerate(const int delta = deltaSpeed);
+    void accelerate(const float delta = deltaSpeed);
+    void decelerate(const float delta = deltaSpeed);
     void Update();
 };
 
