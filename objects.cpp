@@ -27,6 +27,9 @@ Object::Object (int x, int y, float direction) {
 	this->color = al_map_rgb(255,255,255);
 }
 
+Object::~Object() {
+}
+
 void Object::passTime() {
 	//x += 1;
 	//y += 1;
@@ -34,6 +37,10 @@ void Object::passTime() {
 
 Spaceship::Spaceship(int x, int y, float direction): Object(x, y, direction) {
 	this->color = al_map_rgb(255, 0, 0);
+}
+
+Spaceship::~Spaceship() {
+
 }
 
 void Spaceship::Draw() {
@@ -88,6 +95,10 @@ Asteroid::Asteroid(int x, int y, float direction): Object(x, y, direction) {
 	this->color = al_map_rgb(0, 0, 255);
 }
 
+Asteroid::~Asteroid(){
+
+}
+
 void Asteroid::passTime() {
 	this->x+=1;
 }
@@ -117,6 +128,10 @@ void Asteroid::Draw() {
 Shoot::Shoot(int x, int y, float direction) : Object(x, y, direction) {
 	this->color = al_map_rgb(0, 255, 0);
 };
+
+Shoot::~Shoot() {
+
+}
 
 void Shoot::Draw () {
 	ALLEGRO_COLOR color = this->color;
