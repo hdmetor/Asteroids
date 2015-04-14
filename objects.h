@@ -13,7 +13,7 @@ const float deltaDegree = .09;
 
 class Object {
 public:
-    Object(int x, int y, float direction);
+    Object(int x, int y, float speed);
     ~Object();
     virtual void Draw() =0;
     virtual void Update() =0;
@@ -28,7 +28,7 @@ public:
 
 class Shoot : public Object {
 public:
-    Shoot(int x, int y, float direction);
+    Shoot(int x, int y, float speed, float direction);
     ~Shoot();
     void Draw();
     void Update();
@@ -36,7 +36,7 @@ public:
 
 class Spaceship : public Object {
 public:
-    Spaceship(int x, int y, float direction);
+    Spaceship(int x, int y, float speed);
     ~Spaceship();
     void Draw();
     Shoot* Fire();
@@ -50,9 +50,10 @@ public:
 class Asteroid : public Object {
 public:
     ~Asteroid();
-    Asteroid(int x, int y, float direction);
+    Asteroid(int x, int y, float speed, float spin);
     void Draw();
     void Update();
+    float spin;
 };
 
 

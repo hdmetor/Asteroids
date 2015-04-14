@@ -78,7 +78,7 @@ int main(int argc, char **argv)
    objects.push_back(spaceship);
 
    for (int i = 0; i < asteoridNumber; i++) {
-      Object* asteroid = new Asteroid(200+ 50 * i, 200, 0);
+      Object* asteroid = new Asteroid(200+ 50 * i, 200, 1, .009);
       objects.push_back(asteroid);
    }
 
@@ -94,10 +94,10 @@ int main(int argc, char **argv)
 
       if(event.type == ALLEGRO_EVENT_TIMER) {
          
-         spaceship->Update();
-         //for (int i = 0; i < objects.size(); i++) {
-            //objects[i]->Update();
-         //};
+         for (int i = 0; i < objects.size(); i++) {
+            objects[i]->Update();
+            // check if the object has to be destroied
+         };
          redraw = true;
 
          if(key[KEY_UP]) {

@@ -17,14 +17,13 @@ bool cylinder = true;
 bool torus = true;
 
 using namespace std;
-void updateAndWrap(int& var, int diff, bool wrap, int max);
 //ALLEGRO_COLOR red = al_map_rgb(255,0,0);
 
-Object::Object (int x, int y, float direction) {
+Object::Object (int x, int y, float speed) {
 	this->x = x;
 	this->y = y;
-	this->direction = direction;
-	this->speed = 0;
+	this->direction = 0;
+	this->speed = speed;
 	this->live = 1;
 	this->color = al_map_rgb(255,255,255);
 }
@@ -37,7 +36,7 @@ void Object::Update() {
 	y += - speed * cos(direction); 
 }
 
-Spaceship::Spaceship(int x, int y, float direction): Object(x, y, direction) {
+Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->color = al_map_rgb(255, 0, 0);
 }
 
@@ -47,12 +46,6 @@ Spaceship::~Spaceship() {
 
 void Spaceship::Draw() {
 	ALLEGRO_COLOR color = this->color;
-	if (cylinder) {
-		x = (x % screen_w + screen_w) % screen_w;
-	}
-	if (torus) {
-		y = (y % screen_h + screen_h) % screen_h;
-	}
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
 	al_rotate_transform(&transform, direction); 
@@ -79,7 +72,13 @@ void Spaceship::moveRight(const float delta) {
 }
 
 Shoot* Spaceship::Fire() {
-	Shoot* blast = new Shoot(this->x + 20, this->y + 20, this->direction);
+	Shoot* blast = new Shoot(this->x + 10 * sin(direction), this->y - 10 * cos(direction), this->speed, this->direction);
+			cout << "firing" << endl;
+					cout << this->x << endl;
+							cout << this->y << endl;
+									cout << this->speed << endl;
+									cout << this->direction << endl;
+
 	return blast;
 }
 
@@ -99,11 +98,19 @@ void Spaceship::decelerate(const float delta) {
 
 void Spaceship::Update() {
 	Object::Update();
+	if (cylinder) {
+		x = (x % screen_w + screen_w) % screen_w;
+	}
+	if (torus) {
+		y = (y % screen_h + screen_h) % screen_h;
+	}
 }
 
 // Asteroid
-Asteroid::Asteroid(int x, int y, float direction): Object(x, y, direction) {
+Asteroid::Asteroid(int x, int y, float speed, float spin): Object(x, y, direction) {
 	this->color = al_map_rgb(0, 0, 255);
+	this->speed = speed;
+	this->spin = spin;
 }
 
 Asteroid::~Asteroid(){
@@ -111,7 +118,8 @@ Asteroid::~Asteroid(){
 }
 
 void Asteroid::Update() {
-	this->x+=1;
+	Object::Update();
+	direction += spin;
 }
 
 void Asteroid::Draw() {
@@ -136,8 +144,14 @@ void Asteroid::Draw() {
 }
 
 // Shoot
-Shoot::Shoot(int x, int y, float direction) : Object(x, y, direction) {
-	this->color = al_map_rgb(0, 255, 0);
+Shoot::Shoot(int x, int y, float speed, float direction) : Object(x, y, speed) {
+
+	this->color = al_map_rgb(0, 255, 255);
+
+		cout << "creating" << endl;
+			cout << this->x<< endl;
+				cout << this->y << endl;
+					cout << this->speed << endl;
 };
 
 Shoot::~Shoot() {
@@ -145,23 +159,16 @@ Shoot::~Shoot() {
 }
 
 void Shoot::Draw () {
+
 	ALLEGRO_COLOR color = this->color;
-	ALLEGRO_TRANSFORM transform; 
-	al_identity_transform(&transform); 
-	al_rotate_transform(&transform, direction); 
-	al_translate_transform(&transform, x, y); 
-	al_use_transform(&transform);
+	//ALLEGRO_TRANSFORM transform; 
+	//al_identity_transform(&transform); 
+	//al_rotate_transform(&transform, direction); 
+	//al_translate_transform(&transform, x, y); 
+	//al_use_transform(&transform);
 	al_draw_pixel(x, y, color);
 };
 
 void Shoot::Update() {
-	int i = 0;
-}
-
-// Util
-void updateAndWrap(int& var, int diff, bool wrap, int max) {
-	var += diff;
-	if (wrap) {
-		var = (var % max + max) % max;
-	}
+	Object::Update();
 }
