@@ -14,7 +14,7 @@ const float deltaDegree = .09;
 class Object {
 public:
     Object(int x, int y, float speed);
-    ~Object();
+    virtual ~Object();
     virtual void Draw() =0;
     virtual void Update() =0;
 //private:
@@ -50,12 +50,11 @@ public:
 class Asteroid : public Object {
 public:
     ~Asteroid();
-    Asteroid(int x, int y, float speed, float spin);
+    Asteroid(int x, int y, float speed, float direction, float spin);
     void Draw();
     void Update();
     float spin;
+    float rotated;
 };
-
-
 
 #endif

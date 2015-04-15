@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include "init.h"
+#include <cstdlib>
 
 // please use only one variable
 int screen_w = 800;
@@ -107,26 +108,30 @@ void Spaceship::Update() {
 }
 
 // Asteroid
-Asteroid::Asteroid(int x, int y, float speed, float spin): Object(x, y, direction) {
+Asteroid::Asteroid(int x, int y, float speed, float direction, float spin): Object(x, y, direction) {
+	this->x = x;
+	this->y =y;
+	this->direction = direction;
 	this->color = al_map_rgb(0, 0, 255);
 	this->speed = speed;
 	this->spin = spin;
+	this->rotated = 0;
 }
 
-Asteroid::~Asteroid(){
+Asteroid::~Asteroid() {
 
 }
 
 void Asteroid::Update() {
 	Object::Update();
-	direction += spin;
+	rotated += spin;
 }
 
 void Asteroid::Draw() {
-	color = this->color;
+	//color = this->color;
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
-	al_rotate_transform(&transform, direction); 
+	al_rotate_transform(&transform, direction + rotated); 
 	al_translate_transform(&transform, x, y); 
 	al_use_transform(&transform);
 	al_draw_line(-20, 20, -25, 5, color, 2.0f); 

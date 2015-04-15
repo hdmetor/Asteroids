@@ -9,6 +9,7 @@
 // Self
 //#include "init.h"
 #include "objects.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -24,6 +25,8 @@ enum MYKEYS {
 int main(int argc, char **argv)
 {
 
+   srand(static_cast<unsigned int>(time(0)));
+   
    ALLEGRO_DISPLAY *display = NULL;
    ALLEGRO_TIMER *timer = NULL;
    ALLEGRO_BITMAP *bouncer = NULL;
@@ -74,11 +77,19 @@ int main(int argc, char **argv)
 
    Spaceship* spaceship = new Spaceship(100,100, + 1 *M_PI);
    spaceship->speed = 3;
+   cout <<"[ " << spaceship->x <<", "<< spaceship->y <<" ]" <<endl;
+
+
    vector<Object*> objects;
    objects.push_back(spaceship);
 
    for (int i = 0; i < asteoridNumber; i++) {
-      Object* asteroid = new Asteroid(200+ 50 * i, 200, 1, .009);
+      int x = rand() % 760  + 20;
+      int y = rand() % 560 + 20;
+      float dir = 1.5;
+      float speed = 2;
+      float spin = .009;
+      Object* asteroid = new Asteroid(x, y, speed, dir, spin);
       objects.push_back(asteroid);
    }
 
@@ -95,6 +106,10 @@ int main(int argc, char **argv)
       if(event.type == ALLEGRO_EVENT_TIMER) {
          
          for (int i = 0; i < objects.size(); i++) {
+            if (i != 0) {
+            cout << "in cycle" << i << ":" << endl;
+              cout <<"[ " << objects[i]->x <<", "<< objects[i]->y <<" ]" <<endl;
+            }
             objects[i]->Update();
             // check if the object has to be destroied
          };
