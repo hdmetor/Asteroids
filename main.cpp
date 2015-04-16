@@ -14,14 +14,19 @@
 using namespace std;
 
 //Maybe move this to a config file
-const int asteoridNumber = 5;
+const int asteoridNumber = 0;
+bool debug = false;
 const float FPS = 20;
 const int SCREEN_W = 800;
 const int SCREEN_H = 600;
 enum MYKEYS {
    KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESCAPE, KEY_SPACE
 };
- 
+enum NAMES {
+   OBJECT, SPACESHIP, ASTEROID, SHOOT
+};
+
+
 int main(int argc, char **argv)
 {
 
@@ -90,7 +95,6 @@ int main(int argc, char **argv)
       objects.push_back(asteroid);
    }
 
-
    al_flip_display();
    al_start_timer(timer);
 
@@ -101,9 +105,30 @@ int main(int argc, char **argv)
  
 
       if(event.type == ALLEGRO_EVENT_TIMER) {
-         
+         // TODO: make this an iterator
          for (int i = 0; i < objects.size(); i++) {
-            objects[i]->Update();
+            Object* currentObject = objects[i];
+            currentObject->Update();
+           
+            if (currentObject->name == SHOOT){
+               // if the shoot it ouside the boundaries
+               if(
+                  (currentObject->x * currentObject->y) < 0 ||
+                  currentObject->x > SCREEN_W || 
+                  currentObject->y > SCREEN_H ) {
+                  cout << "destr" << endl;
+                  delete currentObject;
+                  objects.erase(objects.begin() + i);
+               }
+
+               // if it shoot an asteroid:
+               
+            }
+
+            if (debug) {
+               if (i !=0)
+               currentObject->DebugPrint();
+            }
             // check if the object has to be destroied
          };
          redraw = true;

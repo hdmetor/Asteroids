@@ -12,13 +12,15 @@
 int screen_w = 800;
 int screen_h = 600;
 
-const float maxSpeed = 5;
+const float maxSpeed = 7;
 
 bool cylinder = true;
 bool torus = true;
 
 using namespace std;
 //ALLEGRO_COLOR red = al_map_rgb(255,0,0);
+
+int wrap (int num, int max);
 
 Object::Object (int x, int y, float speed) {
 	this->x = x;
@@ -27,6 +29,7 @@ Object::Object (int x, int y, float speed) {
 	this->speed = speed;
 	this->live = 1;
 	this->color = al_map_rgb(255,255,255);
+	this->name = 0;
 }
 
 Object::~Object() {
@@ -37,8 +40,23 @@ void Object::Update() {
 	y += - speed * cos(direction); 
 }
 
+void Object::DebugPrint() {
+	cout << "Printing object" << endl;
+	cout << "\tx is :" << x << endl;
+	cout << "\ty is :" << y << endl;
+	cout << "\tdirection is :" << direction << endl;
+	cout << "\tspeed is :" << speed << endl;
+
+}
+
+void Spaceship::DebugPrint() {
+	cout << "The follwing is a spaceship!" << endl;
+	Object::DebugPrint();
+}
+
 Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->color = al_map_rgb(255, 0, 0);
+	this->name = 1;
 }
 
 Spaceship::~Spaceship() {
@@ -73,7 +91,7 @@ void Spaceship::moveRight(const float delta) {
 }
 
 Shoot* Spaceship::Fire() {
-	Shoot* blast = new Shoot(x + 20 * sin(direction), y - 20 * cos(direction), speed + 1 , direction);
+	Shoot* blast = new Shoot(x + 20 * sin(direction), y - 20 * cos(direction), maxSpeed + 2 , direction);
 	return blast;
 }
 
@@ -110,10 +128,18 @@ Asteroid::Asteroid(int x, int y, float speed, float direction, float spin): Obje
 	this->speed = speed;
 	this->spin = spin;
 	this->rotated = 0;
+	this->name = 2;
 }
 
 Asteroid::~Asteroid() {
 
+}
+
+void Asteroid::DebugPrint() {
+	cout << "The follwing is an asteroid!" << endl;
+	Object::DebugPrint();
+	cout << "\tspin is :" << spin << endl;
+	cout << "\trotated is :" << rotated << endl;
 }
 
 void Asteroid::Update() {
@@ -146,6 +172,7 @@ void Asteroid::Draw() {
 Shoot::Shoot(int x, int y, float speed, float direction) : Object(x, y, speed) {
 	this->color = al_map_rgb(0, 255, 255);
 	this->direction = direction;
+	this->name = 3;
 };
 
 Shoot::~Shoot() {
@@ -165,3 +192,28 @@ void Shoot::Draw () {
 void Shoot::Update() {
 	Object::Update();
 }
+
+void Shoot::DebugPrint() {
+	cout << "The follwing is a shoot!" << endl;
+	Object::DebugPrint();
+}
+
+int wrap (int num, int max) {
+	cout << num << max << endl;
+	return ((num % max + max) % max);
+}
+
+/*int bounding_box_collision(int b1_x, int b1_y, int b1_w, int b1_h, int b2_x, int b2_y, int b2_w, int b2_h)
+{
+    if ((b1_x > b2_x + b2_w - 1) || // is b1 on the right side of b2?
+        (b1_y > b2_y + b2_h - 1) || // is b1 under b2?
+        (b2_x > b1_x + b1_w - 1) || // is b2 on the right side of b1?
+        (b2_y > b1_y + b1_h - 1))   // is b2 under b1?
+    {
+        // no collision
+        return 0;
+    }
+ 
+    // collision
+    return 1;
+}*/

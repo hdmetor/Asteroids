@@ -17,12 +17,14 @@ public:
     virtual ~Object();
     virtual void Draw() =0;
     virtual void Update() =0;
+    virtual void DebugPrint();
 //private:
     int x;
     int y;
     double direction; 
     float speed;
     int live; 
+    int name;
     ALLEGRO_COLOR color;
 };
 
@@ -32,6 +34,7 @@ public:
     ~Shoot();
     void Draw();
     void Update();
+    void DebugPrint();
 };
 
 class Spaceship : public Object {
@@ -45,6 +48,7 @@ public:
     void accelerate(const float delta = deltaSpeed);
     void decelerate(const float delta = deltaSpeed);
     void Update();
+    void DebugPrint();
 };
 
 class Asteroid : public Object {
@@ -55,6 +59,7 @@ public:
     void Update();
     float spin;
     float rotated;
+    void DebugPrint();
 };
 
 #endif
