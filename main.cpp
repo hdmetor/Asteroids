@@ -15,7 +15,7 @@ using namespace std;
 
 //Maybe move this to a config file
 const int asteoridNumber = 5;
-const float FPS = 60;
+const float FPS = 20;
 const int SCREEN_W = 800;
 const int SCREEN_H = 600;
 enum MYKEYS {
@@ -74,11 +74,8 @@ int main(int argc, char **argv)
    al_register_event_source(event_queue, al_get_keyboard_event_source());
    al_clear_to_color(al_map_rgb(0,0,0));
 
-
-   Spaceship* spaceship = new Spaceship(100,100, + 1 *M_PI);
-   spaceship->speed = 3;
-   cout <<"[ " << spaceship->x <<", "<< spaceship->y <<" ]" <<endl;
-
+   float spaceshipStartSpeed  = 0;
+   Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
 
    vector<Object*> objects;
    objects.push_back(spaceship);
@@ -106,10 +103,6 @@ int main(int argc, char **argv)
       if(event.type == ALLEGRO_EVENT_TIMER) {
          
          for (int i = 0; i < objects.size(); i++) {
-            if (i != 0) {
-            cout << "in cycle" << i << ":" << endl;
-              cout <<"[ " << objects[i]->x <<", "<< objects[i]->y <<" ]" <<endl;
-            }
             objects[i]->Update();
             // check if the object has to be destroied
          };
@@ -213,9 +206,9 @@ int main(int argc, char **argv)
    // game was quitted
    al_destroy_display(display);
  
-//   for (int i = 0; i < objects.size(); i++) {
-  //    delete objects[i];
-   //}
+   for (int i = 0; i < objects.size(); i++) {
+      delete objects[i];
+   }
 
    
    return 0;

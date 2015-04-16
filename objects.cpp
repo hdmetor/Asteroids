@@ -73,13 +73,7 @@ void Spaceship::moveRight(const float delta) {
 }
 
 Shoot* Spaceship::Fire() {
-	Shoot* blast = new Shoot(this->x + 10 * sin(direction), this->y - 10 * cos(direction), this->speed, this->direction);
-			cout << "firing" << endl;
-					cout << this->x << endl;
-							cout << this->y << endl;
-									cout << this->speed << endl;
-									cout << this->direction << endl;
-
+	Shoot* blast = new Shoot(x + 20 * sin(direction), y - 20 * cos(direction), speed + 1 , direction);
 	return blast;
 }
 
@@ -150,13 +144,8 @@ void Asteroid::Draw() {
 
 // Shoot
 Shoot::Shoot(int x, int y, float speed, float direction) : Object(x, y, speed) {
-
 	this->color = al_map_rgb(0, 255, 255);
-
-		cout << "creating" << endl;
-			cout << this->x<< endl;
-				cout << this->y << endl;
-					cout << this->speed << endl;
+	this->direction = direction;
 };
 
 Shoot::~Shoot() {
@@ -164,14 +153,13 @@ Shoot::~Shoot() {
 }
 
 void Shoot::Draw () {
-
 	ALLEGRO_COLOR color = this->color;
-	//ALLEGRO_TRANSFORM transform; 
-	//al_identity_transform(&transform); 
-	//al_rotate_transform(&transform, direction); 
-	//al_translate_transform(&transform, x, y); 
-	//al_use_transform(&transform);
-	al_draw_pixel(x, y, color);
+	ALLEGRO_TRANSFORM transform; 
+	al_identity_transform(&transform); 
+	al_rotate_transform(&transform, direction); 
+	al_translate_transform(&transform, x, y); 
+	al_use_transform(&transform);
+	al_draw_pixel(0 , 0 , color);
 };
 
 void Shoot::Update() {
