@@ -6,6 +6,8 @@
 //Allegro
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 // Self
 //#include "init.h"
 #include "objects.h"
@@ -14,9 +16,9 @@
 using namespace std;
 
 //Maybe move this to a config file
-const int asteoridNumber = 1;
+const int asteoridsNumber = 1;
 bool debug = false;
-const float FPS = 20;
+const float FPS = 60;
 const int SCREEN_W = 800;
 const int SCREEN_H = 600;
 enum MYKEYS {
@@ -64,7 +66,15 @@ int main(int argc, char **argv)
       al_destroy_timer(timer);
       return -1;
    }
-   
+
+   al_init_font_addon(); 
+   al_init_ttf_addon();
+   ALLEGRO_FONT *font = al_load_ttf_font("font.ttf", 16, 0);
+   if (!font){
+      fprintf(stderr, "Could not load 'PabloSansCaps.ttf'.\n");
+      return -1;
+   }
+ 
    event_queue = al_create_event_queue(); 
       if(!event_queue) {
       fprintf(stderr, "failed to create event_queue!\n");
@@ -87,10 +97,12 @@ int main(int argc, char **argv)
    vector<Asteroid*> asteroids;
    vector<Shoot*> shoots;
 
-   for (int i = 0; i < asteoridNumber; i++) {
+   for (int i = 0; i < asteoridsNumber; i++) {
       int x = rand() % 760  + 20;
       int y = rand() % 560 + 20;
-      float dir = 1.5;
+      //int x = 150;
+      //int y = 550;
+      float dir = rand() % 7;
       float speed = 2;
       float spin = .009;
       Asteroid* asteroid = new Asteroid(x, y, speed, dir, spin);
@@ -109,9 +121,40 @@ int main(int argc, char **argv)
 
       if(event.type == ALLEGRO_EVENT_TIMER) {
          //Updating everything
+         if (asteroids.size() == 0) {
+            al_clear_to_color(al_map_rgb(0, 0, 0 ));
+            al_draw_line(600,500, 700,500,al_map_rgb(120,120,120),5.0f);
+            al_draw_text(font, al_map_rgb(120,120,120), 600, 500, ALLEGRO_ALIGN_RIGHT, "You is the winner!");
+ 
+            al_flip_display();
+ 
+            al_rest(2.0);
+ 
+            doexit = true;
+         }
+
          spaceship->Update();
          for (int i = 0; i < asteroids.size(); i++) {
-            asteroids[i]->Update();
+            Asteroid* asteroid = asteroids[i];
+            asteroid->Update();
+
+            
+            // asteroid bouncing 
+            if (asteroid->x - 20 <= 0 ||
+                asteroid->x + 20 >= SCREEN_W ||
+                asteroid->y - 20 <= 0 ||
+                asteroid->y + 20 >= SCREEN_H
+                ) {
+               asteroids[i]->direction += M_PI/2;
+               asteroids[i]->Update();
+               asteroids[i]->Update();
+               asteroids[i]->Update();
+               asteroids[i]->Update();
+            }
+
+
+
+
          }
          for (int i = 0; i < shoots.size(); i++) {
             shoots[i]->Update();
@@ -128,7 +171,7 @@ int main(int argc, char **argv)
             }
          };
          */
-//THIS IS THE SEG FAULT
+
          for (int i = 0; i < shoots.size(); i++){
             Shoot* shoot = shoots[i];
                // if the shoot it ouside the boundaries
