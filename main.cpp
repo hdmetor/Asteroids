@@ -14,7 +14,7 @@
 using namespace std;
 
 //Maybe move this to a config file
-const int asteoridNumber = 0;
+const int asteoridNumber = 1;
 bool debug = false;
 const float FPS = 20;
 const int SCREEN_W = 800;
@@ -82,8 +82,10 @@ int main(int argc, char **argv)
    float spaceshipStartSpeed  = 0;
    Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
 
-   vector<Object*> objects;
-   objects.push_back(spaceship);
+   //vector<Object*> objects;
+   //objects.push_back(spaceship);
+   vector<Asteroid*> asteroids;
+   vector<Shoot*> shoots;
 
    for (int i = 0; i < asteoridNumber; i++) {
       int x = rand() % 760  + 20;
@@ -91,8 +93,9 @@ int main(int argc, char **argv)
       float dir = 1.5;
       float speed = 2;
       float spin = .009;
-      Object* asteroid = new Asteroid(x, y, speed, dir, spin);
-      objects.push_back(asteroid);
+      Asteroid* asteroid = new Asteroid(x, y, speed, dir, spin);
+      //objects.push_back(asteroid);
+      asteroids.push_back(asteroid);
    }
 
    al_flip_display();
@@ -105,32 +108,63 @@ int main(int argc, char **argv)
  
 
       if(event.type == ALLEGRO_EVENT_TIMER) {
+         //Updating everything
+         spaceship->Update();
+         for (int i = 0; i < asteroids.size(); i++) {
+            asteroids[i]->Update();
+         }
+         for (int i = 0; i < shoots.size(); i++) {
+            shoots[i]->Update();
+         }
          // TODO: make this an iterator
+         /*
+
          for (int i = 0; i < objects.size(); i++) {
             Object* currentObject = objects[i];
             currentObject->Update();
-           
-            if (currentObject->name == SHOOT){
-               // if the shoot it ouside the boundaries
-               if(
-                  (currentObject->x * currentObject->y) < 0 ||
-                  currentObject->x > SCREEN_W || 
-                  currentObject->y > SCREEN_H ) {
-                  cout << "destr" << endl;
-                  delete currentObject;
-                  objects.erase(objects.begin() + i);
-               }
-
-               // if it shoot an asteroid:
-               
-            }
-
             if (debug) {
                if (i !=0)
                currentObject->DebugPrint();
             }
-            // check if the object has to be destroied
          };
+         */
+//THIS IS THE SEG FAULT
+         for (int i = 0; i < shoots.size(); i++){
+            Shoot* shoot = shoots[i];
+               // if the shoot it ouside the boundaries
+               if(
+                  (shoot->x * shoot->y) < 0 ||
+                  shoot->x > SCREEN_W || 
+                  shoot->y > SCREEN_H ) {
+                  cout << "ouside" << endl;
+                  delete shoot;
+                  shoots.erase(shoots.begin() + i);
+
+               } else {
+
+               for (int j = 0; j < asteroids.size(); j++) {
+                  Asteroid * asteroid = asteroids[j];
+                  if (
+                      shoot->x > asteroid->x - 25 &&
+                      shoot->x < asteroid->x + 20 &&
+                      shoot->y > asteroid->y - 20 &&
+                      shoot->y < asteroid->y + 20
+                      ) {
+                     cout << "bam" << endl;
+                     delete shoot;
+                     delete asteroids[j];
+                     shoots.erase(shoots.begin() + i);
+                     asteroids.erase(asteroids.begin() + j);
+                  }
+               }
+            }
+               // if it shoot an asteroid:
+               
+            }
+
+
+            // check if the object has to be destroied
+         
          redraw = true;
 
          if(key[KEY_UP]) {
@@ -156,7 +190,8 @@ int main(int argc, char **argv)
          if(key[KEY_SPACE]) {
             //cout <<"FIRING" << endl;
             Shoot* blast = spaceship->Fire();
-            objects.push_back(blast);
+            //objects.push_back(blast);
+            shoots.push_back(blast);
          }
 
       }
@@ -221,8 +256,14 @@ int main(int argc, char **argv)
       if(redraw && al_is_event_queue_empty(event_queue)) {
          redraw = false;
          al_clear_to_color(al_map_rgb(0,0,0));
-         for (int i = 0; i < objects.size(); i++) {
-            objects[i]->Draw();
+
+         spaceship->Draw();
+         for (int i = 0; i < asteroids.size(); i++) {
+            asteroids[i]->Draw();
+         }
+
+         for (int i = 0; i < shoots.size(); i++) {
+            shoots[i]->Draw();
          }
          al_flip_display();
       }
@@ -230,11 +271,11 @@ int main(int argc, char **argv)
 
    // game was quitted
    al_destroy_display(display);
- 
+ /*
    for (int i = 0; i < objects.size(); i++) {
       delete objects[i];
    }
-
+*/
    
    return 0;
 }
