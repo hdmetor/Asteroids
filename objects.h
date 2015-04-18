@@ -21,6 +21,8 @@ public:
 //private:
     int x;
     int y;
+    float dx;
+    float dy;
     double direction; 
     float speed;
     int live; 
@@ -53,8 +55,8 @@ public:
 
 class Asteroid : public Object {
 public:
-    ~Asteroid();
     Asteroid(int x, int y, float speed, float direction, float spin);
+    ~Asteroid();
     void Draw();
     void Update();
     float spin;

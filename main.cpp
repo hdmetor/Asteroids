@@ -16,7 +16,7 @@
 using namespace std;
 
 //Maybe move this to a config file
-const int asteoridsNumber = 1;
+const int asteoridsNumber = 6;
 bool debug = false;
 const float FPS = 60;
 const int SCREEN_W = 800;
@@ -101,8 +101,9 @@ int main(int argc, char **argv)
       int x = rand() % 760  + 20;
       int y = rand() % 560 + 20;
       //int x = 150;
-      //int y = 550;
-      float dir = rand() % 7;
+      //int y = 100;
+      float dir = .6 + rand() % 700 / 100;
+      //float dir = .7;
       float speed = 2;
       float spin = .009;
       Asteroid* asteroid = new Asteroid(x, y, speed, dir, spin);
@@ -124,7 +125,7 @@ int main(int argc, char **argv)
          if (asteroids.size() == 0) {
             al_clear_to_color(al_map_rgb(0, 0, 0 ));
             al_draw_line(600,500, 700,500,al_map_rgb(120,120,120),5.0f);
-            al_draw_text(font, al_map_rgb(120,120,120), 600, 500, ALLEGRO_ALIGN_RIGHT, "You is the winner!");
+            al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
  
             al_flip_display();
  
@@ -138,18 +139,29 @@ int main(int argc, char **argv)
             Asteroid* asteroid = asteroids[i];
             asteroid->Update();
 
+            if (debug) {
             
-            // asteroid bouncing 
+               asteroid->DebugPrint();
+            }
+            // asteroid on vertical borders 
             if (asteroid->x - 20 <= 0 ||
-                asteroid->x + 20 >= SCREEN_W ||
-                asteroid->y - 20 <= 0 ||
+                asteroid->x + 20 >= SCREEN_W) {
+               asteroids[i]->direction = -asteroids[i]->direction; 
+
+            }
+            else if (asteroid->y - 20 <= 0 ||
                 asteroid->y + 20 >= SCREEN_H
                 ) {
-               asteroids[i]->direction += M_PI/2;
+
+               asteroids[i]->direction = +M_PI - asteroids[i]->direction;
+               //cout << "---BOUNCE---" <<endl;
+               //asteroids[i]->direction += M_PI/2;
+               //cout << "---AfterBOunce---" <<endl;
+              //asteroid->DebugPrint();
+               /*asteroids[i]->Update();
                asteroids[i]->Update();
                asteroids[i]->Update();
-               asteroids[i]->Update();
-               asteroids[i]->Update();
+               asteroids[i]->Update();*/
             }
 
 
@@ -165,10 +177,7 @@ int main(int argc, char **argv)
          for (int i = 0; i < objects.size(); i++) {
             Object* currentObject = objects[i];
             currentObject->Update();
-            if (debug) {
-               if (i !=0)
-               currentObject->DebugPrint();
-            }
+            
          };
          */
 
@@ -179,7 +188,7 @@ int main(int argc, char **argv)
                   (shoot->x * shoot->y) < 0 ||
                   shoot->x > SCREEN_W || 
                   shoot->y > SCREEN_H ) {
-                  cout << "ouside" << endl;
+                  
                   delete shoot;
                   shoots.erase(shoots.begin() + i);
 
@@ -193,7 +202,6 @@ int main(int argc, char **argv)
                       shoot->y > asteroid->y - 20 &&
                       shoot->y < asteroid->y + 20
                       ) {
-                     cout << "bam" << endl;
                      delete shoot;
                      delete asteroids[j];
                      shoots.erase(shoots.begin() + i);
