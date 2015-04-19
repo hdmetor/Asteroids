@@ -6,16 +6,9 @@
 #include <iostream>
 #include <math.h>
 #include "init.h"
+#include "config.h"
 #include <cstdlib>
 
-// please use only one variable
-int screen_w = 800;
-int screen_h = 600;
-
-const float maxSpeed = 7;
-
-bool cylinder = true;
-bool torus = true;
 
 using namespace std;
 //ALLEGRO_COLOR red = al_map_rgb(255,0,0);
@@ -30,22 +23,20 @@ Object::Object (int x, int y, float speed) {
 	this->live = 1;
 	this->color = al_map_rgb(255,255,255);
 	this->name = 0;
-	this->dx = 0;
-	this->dy = 0;
 }
 
 Object::~Object() {
 }
 
 void Object::Update() {
-	int ddx = (int)speed * sin(direction);
-	int ddy = (int)- speed * cos(direction);
+	int dx = (int)speed * sin(direction);
+	int dy = (int)- speed * cos(direction);
 	//cout << "x: SIN " << sin(direction) <<" "<< speed * sin(direction)<< endl;
 	//cout << "y: COS " << cos(direction) <<" "<< speed * cos(direction) <<endl;
 	//cout << y << "\t"<< pene <<endl;
-	x += ddx;
-	y += ddy; 
-	//cout << "FAME\t" << y <<endl;
+	x += dx;
+	y += dy; 
+	//cout << "again\t" << y <<endl;
 	//x += speed * dx;
 	//y += speed * dy;
 }
@@ -90,14 +81,14 @@ void Spaceship::Draw() {
 void Spaceship::moveLeft(const float delta) {
 	this->direction -= delta;
 	//direction %= M_PI;
-	//updateAndWrap(x, -delta, cylinder, screen_w);
+	//updateAndWrap(x, -delta, cylinder, SCREEN_W);
 	
 }
 
 void Spaceship::moveRight(const float delta) {
 	this->direction += delta;
 	//direction %= M_PI;
-	//updateAndWrap(x, delta, cylinder, screen_w);
+	//updateAndWrap(x, delta, cylinder, SCREEN_W);
 
 }
 
@@ -123,10 +114,10 @@ void Spaceship::decelerate(const float delta) {
 void Spaceship::Update() {
 	Object::Update();
 	if (cylinder) {
-		x = (x % screen_w + screen_w) % screen_w;
+		x = (x % SCREEN_W + SCREEN_W) % SCREEN_W;
 	}
 	if (torus) {
-		y = (y % screen_h + screen_h) % screen_h;
+		y = (y % SCREEN_H + SCREEN_H) % SCREEN_H;
 	}
 }
 

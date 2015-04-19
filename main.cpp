@@ -3,24 +3,19 @@
 #include <vector>
 #include <stdio.h>
 #include <math.h>
+#include <cstdlib>
 //Allegro
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 // Self
-//#include "init.h"
+#include "init.h"
 #include "objects.h"
-#include <cstdlib>
+#include "config.h"
 
 using namespace std;
 
-//Maybe move this to a config file
-const int asteoridsNumber = 6;
-bool debug = false;
-const float FPS = 60;
-const int SCREEN_W = 800;
-const int SCREEN_H = 600;
 enum MYKEYS {
    KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESCAPE, KEY_SPACE
 };
@@ -34,66 +29,19 @@ int main(int argc, char **argv)
 
    srand(static_cast<unsigned int>(time(0)));
    
-   ALLEGRO_DISPLAY *display = NULL;
-   ALLEGRO_TIMER *timer = NULL;
-   ALLEGRO_BITMAP *bouncer = NULL;
-   ALLEGRO_EVENT_QUEUE *event_queue;
    bool key[] = { false, false, false, false, false, false };
    bool redraw = true;
    bool doexit = false;
 
-
-   //Init code
-   if(!al_init()) {
-      fprintf(stderr, "failed to initialize allegro!\n");
+   if (!init()) {
       return -1;
    }
- 
-   if(!al_install_keyboard()) {
-      fprintf(stderr, "failed to initialize the keyboard!\n");
-      return -1;
-   }
-
-   timer = al_create_timer(1.0 / FPS);
-   if(!timer) {
-      fprintf(stderr, "failed to create timer!\n");
-      return -1;
-   }
-
-   display = al_create_display(SCREEN_W, SCREEN_H);
-   if(!display) {
-      fprintf(stderr, "failed to create display!\n");
-      al_destroy_timer(timer);
-      return -1;
-   }
-
-   al_init_font_addon(); 
-   al_init_ttf_addon();
-   ALLEGRO_FONT *font = al_load_ttf_font("font.ttf", 16, 0);
-   if (!font){
-      fprintf(stderr, "Could not load 'PabloSansCaps.ttf'.\n");
-      return -1;
-   }
- 
-   event_queue = al_create_event_queue(); 
-      if(!event_queue) {
-      fprintf(stderr, "failed to create event_queue!\n");
-      al_destroy_bitmap(bouncer);
-      al_destroy_display(display);
-      al_destroy_timer(timer);
-      return -1;
-   }
-
-   al_register_event_source(event_queue, al_get_display_event_source(display));
-   al_register_event_source(event_queue, al_get_timer_event_source(timer));
-   al_register_event_source(event_queue, al_get_keyboard_event_source());
-   al_clear_to_color(al_map_rgb(0,0,0));
 
    float spaceshipStartSpeed  = 0;
    Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
 
-   //vector<Object*> objects;
-   //objects.push_back(spaceship);
+   vector<Spaceship*> spaceships;
+   objespaceshipscts.push_back(spaceship);
    vector<Asteroid*> asteroids;
    vector<Shoot*> shoots;
 
@@ -122,17 +70,17 @@ int main(int argc, char **argv)
 
       if(event.type == ALLEGRO_EVENT_TIMER) {
          //Updating everything
-         if (asteroids.size() == 0) {
-            al_clear_to_color(al_map_rgb(0, 0, 0 ));
-            al_draw_line(600,500, 700,500,al_map_rgb(120,120,120),5.0f);
-            al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
+         // if (asteroids.size() == 0) {
+         //    al_clear_to_color(al_map_rgb(0, 0, 0 ));
+         //    al_draw_line(600,500, 700,500,al_map_rgb(120,120,120),5.0f);
+         //    al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
  
-            al_flip_display();
+         //    al_flip_display();
  
-            al_rest(2.0);
+         //    al_rest(2.0);
  
-            doexit = true;
-         }
+         //    doexit = true;
+         // }
 
          spaceship->Update();
          for (int i = 0; i < asteroids.size(); i++) {
