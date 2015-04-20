@@ -8,3 +8,4 @@ const bool debug = false;
 const bool cylinder = true;
 const bool torus = true;
 const float maxSpeed = 7;
+const int startingLives = 3;

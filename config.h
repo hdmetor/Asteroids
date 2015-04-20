@@ -9,5 +9,6 @@ extern const bool debug;
 extern const bool cylinder;
 extern const bool torus;
 extern const float maxSpeed;
+extern const int startingLives;
 
 #endif

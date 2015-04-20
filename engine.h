@@ -14,4 +14,7 @@ void CreateAsteoroids(std::vector<Asteroid*>&);
 
 void PrintWinner();
 
+bool IsDestroied(Shoot*, Asteroid*);
+bool IsDestroied(Spaceship*, Asteroid*);
+
 #endif

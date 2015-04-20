@@ -59,7 +59,8 @@ void Spaceship::DebugPrint() {
 Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->color = al_map_rgb(255, 0, 0);
 	this->name = 1;
-	this->direction = 1.64159;
+	this->direction = 0;
+	this->lives = startingLives;
 }
 
 Spaceship::~Spaceship() {

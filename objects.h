@@ -11,6 +11,9 @@ const float deltaSpeed = .5;
 const float deltaDegree = .09;
 //const int deltaDegree = 1;
 
+// forward declaration for IsDestroied function
+class Asteroid;
+
 class Object {
 public:
     Object(int x, int y, float speed);
@@ -37,6 +40,7 @@ public:
     void Draw();
     bool Update();
     void DebugPrint();
+    friend bool IsDestroied(Shoot*, Asteroid*);
 };
 
 class Spaceship : public Object {
@@ -51,6 +55,8 @@ public:
     void decelerate(const float delta = deltaSpeed);
     bool Update();
     void DebugPrint();
+    friend bool IsDestroied(Spaceship*, Asteroid*);
+    int lives;
 };
 
 class Asteroid : public Object {
@@ -62,6 +68,8 @@ public:
     float spin;
     float rotated;
     void DebugPrint();
+    friend bool IsDestroied(Shoot*, Asteroid*);
+    friend bool IsDestroied(Spaceship*, Asteroid*);
 };
 
 #endif

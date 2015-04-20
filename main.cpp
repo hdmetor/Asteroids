@@ -53,14 +53,16 @@ int main(int argc, char **argv)
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
  
-
         if(event.type == ALLEGRO_EVENT_TIMER) {
             
             if (asteroids.size() == 0) {
-                PrintWinner();     
+                     
                 doexit = true;
+                PrintWinner();
+                // immediately terminating the game
+                break;
             }
-
+            
             for (int i = 0; i < spaceships.size(); i++) {
                 bool lives = spaceship->Update();
             }
@@ -76,31 +78,29 @@ int main(int argc, char **argv)
                     shoots.erase(shoots.begin() +i);
                 }
             }
-
-            for (int i = 0; i < shoots.size(); i++) {
-                Shoot* shoot = shoots[i];
-                    for (int j = 0; j < asteroids.size(); j++) {
-                        Asteroid * asteroid = asteroids[j];
-                        if (
-                             shoot->x > asteroid->x - 25 &&
-                             shoot->x < asteroid->x + 20 &&
-                             shoot->y > asteroid->y - 20 &&
-                             shoot->y < asteroid->y + 20
-                             ) {
-                            delete shoot;
-                            delete asteroids[j];
-                            shoots.erase(shoots.begin() + i);
-                            asteroids.erase(asteroids.begin() + j);
+            // for each asteroid, first check if it was destroied
+            // then check if it destroys a spaceship
+            for (int j = 0; j < asteroids.size(); j++) {
+                Asteroid * asteroid = asteroids[j];
+                bool lives = true;
+                for (int i = 0; i < shoots.size(); i++) {
+                    Shoot* shoot = shoots[i];
+                    if (IsDestroied(shoot, asteroid)) {
+                        delete shoot;
+                        delete asteroids[j];
+                        shoots.erase(shoots.begin() + i);
+                        asteroids.erase(asteroids.begin() + j);
+                        lives = false;
+                    }
+                }   
+                for (int i = 0; i <= spaceships.size(); i++) {
+                    if (lives) {
+                        if (IsDestroied(spaceships[i], asteroids[j])) {
+                            spaceships[i]-> lives -= 1;
                         }
-                    
-                }
-                    // if it shoot an asteroid:
-                    
-                }
-
-
-                // check if the object has to be destroied
-            
+                    }
+                }     
+            }
             redraw = true;
 
             if(key[KEY_UP]) {
@@ -192,12 +192,12 @@ int main(int argc, char **argv)
         if(redraw && al_is_event_queue_empty(event_queue)) {
             redraw = false;
             al_clear_to_color(al_map_rgb(0,0,0));
-
-            spaceship->Draw();
+            for (int i = 0; i < spaceships.size(); i++) {
+                spaceships[i]->Draw();
+            }
             for (int i = 0; i < asteroids.size(); i++) {
                 asteroids[i]->Draw();
             }
-
             for (int i = 0; i < shoots.size(); i++) {
                 shoots[i]->Draw();
             }

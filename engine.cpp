@@ -29,8 +29,40 @@ void CreateAsteoroids(vector<Asteroid*>& asteroids) {
    }
 }
 
+bool IsDestroied(Shoot* shoot, Asteroid* asteroid) {
+    if (
+        shoot->x > asteroid->x - 25 &&
+        shoot->x < asteroid->x + 20 &&
+        shoot->y > asteroid->y - 20 &&
+        shoot->y < asteroid->y + 20
+        ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool IsDestroied(Spaceship* spaceship, Asteroid* asteroid) {
+
+    if ((spaceship->x - 8 > asteroid->x + 20 - 1) || // is b1 on the right side of b2?
+        (spaceship->y - 11 > asteroid->y + 20 - 1) || // is b1 under b2?
+        (asteroid->x > spaceship->x - 20 + 15 - 1) || // is b2 on the right side of b1?
+        (asteroid->y > spaceship->y + 20 - 1))   // is b2 under b1?
+    {
+        // no collision
+        return false;
+    }
+    // collision
+    return true;
+}
+
 void PrintWinner() {
     al_clear_to_color(al_map_rgb(0, 0, 0 ));
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform); 
+    al_rotate_transform(&transform, 0); 
+    al_translate_transform(&transform, 0, 0); 
+    al_use_transform(&transform);
     al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
     al_flip_display();
     al_rest(2.0);
