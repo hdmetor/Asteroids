@@ -28,7 +28,7 @@ Object::Object (int x, int y, float speed) {
 Object::~Object() {
 }
 
-void Object::Update() {
+bool Object::Update() {
 	int dx = (int)speed * sin(direction);
 	int dy = (int)- speed * cos(direction);
 	//cout << "x: SIN " << sin(direction) <<" "<< speed * sin(direction)<< endl;
@@ -39,6 +39,7 @@ void Object::Update() {
 	//cout << "again\t" << y <<endl;
 	//x += speed * dx;
 	//y += speed * dy;
+	return true;
 }
 
 void Object::DebugPrint() {
@@ -111,13 +112,17 @@ void Spaceship::decelerate(const float delta) {
 	}
 }
 
-void Spaceship::Update() {
+bool Spaceship::Update() {
 	Object::Update();
 	if (cylinder) {
 		x = (x % SCREEN_W + SCREEN_W) % SCREEN_W;
 	}
 	if (torus) {
 		y = (y % SCREEN_H + SCREEN_H) % SCREEN_H;
+	}
+	// check for collisions
+	if (true) {
+		return true;
 	}
 }
 
@@ -144,9 +149,20 @@ void Asteroid::DebugPrint() {
 	cout << "\trotated is :" << rotated << endl;
 }
 
-void Asteroid::Update() {
-	Object::Update();
+bool Asteroid::Update() {
+	if (!Object::Update()) {
+		return false;
+	}
 	rotated += spin;
+	// bounce on vertical borders
+	if (x - 20 <= 0 || x + 20 >= SCREEN_W) {
+		direction = - direction;
+	}
+	// bounce on horizontal borders
+	if (y - 20 <= 0 || y + 20 >= SCREEN_H){
+		direction = M_PI - direction;
+	}
+	return true;
 }
 
 void Asteroid::Draw() {
@@ -191,8 +207,15 @@ void Shoot::Draw () {
 	al_draw_pixel(0 , 0 , color);
 };
 
-void Shoot::Update() {
-	Object::Update();
+bool Shoot::Update() {
+	if (!Object::Update()) {
+		return false;
+	}
+	if (x * y < 0 || x > SCREEN_W || y > SCREEN_H) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 void Shoot::DebugPrint() {

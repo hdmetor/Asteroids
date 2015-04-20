@@ -16,7 +16,7 @@ public:
     Object(int x, int y, float speed);
     virtual ~Object();
     virtual void Draw() =0;
-    virtual void Update() =0;
+    virtual bool Update();
     virtual void DebugPrint();
 //private:
     int x;
@@ -35,7 +35,7 @@ public:
     Shoot(int x, int y, float speed, float direction);
     ~Shoot();
     void Draw();
-    void Update();
+    bool Update();
     void DebugPrint();
 };
 
@@ -49,7 +49,7 @@ public:
     void moveRight(const float delta = deltaDegree);
     void accelerate(const float delta = deltaSpeed);
     void decelerate(const float delta = deltaSpeed);
-    void Update();
+    bool Update();
     void DebugPrint();
 };
 
@@ -58,7 +58,7 @@ public:
     Asteroid(int x, int y, float speed, float direction, float spin);
     ~Asteroid();
     void Draw();
-    void Update();
+    bool Update();
     float spin;
     float rotated;
     void DebugPrint();

@@ -9,6 +9,7 @@ ALLEGRO_DISPLAY *display = NULL;
 ALLEGRO_TIMER *timer = NULL;
 ALLEGRO_BITMAP *bouncer = NULL;
 ALLEGRO_EVENT_QUEUE *event_queue;
+ALLEGRO_FONT *font = NULL;
 
 using namespace std;
 
@@ -39,18 +40,22 @@ if(!al_init()) {
 
    al_init_font_addon(); 
    al_init_ttf_addon();
-   ALLEGRO_FONT *font = al_load_ttf_font("font.ttf", 16, 0);
+   font = al_load_ttf_font("font.ttf", 16, 0);
+
    if (!font){
       fprintf(stderr, "Could not load 'PabloSansCaps.ttf'.\n");
+      al_destroy_display(display);
+      al_destroy_timer(timer);
+      al_destroy_font(font);
       return -1;
    }
  
    event_queue = al_create_event_queue(); 
       if(!event_queue) {
       fprintf(stderr, "failed to create event_queue!\n");
-      al_destroy_bitmap(bouncer);
       al_destroy_display(display);
       al_destroy_timer(timer);
+      al_destroy_font(font);
       return -1;
    }
 
@@ -58,6 +63,5 @@ if(!al_init()) {
    al_register_event_source(event_queue, al_get_timer_event_source(timer));
    al_register_event_source(event_queue, al_get_keyboard_event_source());
    al_clear_to_color(al_map_rgb(0,0,0));
-   
    return 0;
 }

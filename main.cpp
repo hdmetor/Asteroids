@@ -55,79 +55,30 @@ int main(int argc, char **argv)
  
 
         if(event.type == ALLEGRO_EVENT_TIMER) {
-            //Updating everything
-            // if (asteroids.size() == 0) {
-            //     al_clear_to_color(al_map_rgb(0, 0, 0 ));
-            //     al_draw_line(600,500, 700,500,al_map_rgb(120,120,120),5.0f);
-            //     al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
- 
-            //     al_flip_display();
- 
-            //     al_rest(2.0);
- 
-            //     doexit = true;
-            // }
+            
+            if (asteroids.size() == 0) {
+                PrintWinner();     
+                doexit = true;
+            }
 
-            spaceship->Update();
+            for (int i = 0; i < spaceships.size(); i++) {
+                bool lives = spaceship->Update();
+            }
+
             for (int i = 0; i < asteroids.size(); i++) {
-                Asteroid* asteroid = asteroids[i];
-                asteroid->Update();
-
-                if (debug) {
-                
-                    asteroid->DebugPrint();
-                }
-                // asteroid on vertical borders 
-                if (asteroid->x - 20 <= 0 ||
-                     asteroid->x + 20 >= SCREEN_W) {
-                    asteroids[i]->direction = -asteroids[i]->direction; 
-
-                }
-                else if (asteroid->y - 20 <= 0 ||
-                     asteroid->y + 20 >= SCREEN_H
-                     ) {
-
-                    asteroids[i]->direction = +M_PI - asteroids[i]->direction;
-                    //cout << "---BOUNCE---" <<endl;
-                    //asteroids[i]->direction += M_PI/2;
-                    //cout << "---AfterBOunce---" <<endl;
-                  //asteroid->DebugPrint();
-                    /*asteroids[i]->Update();
-                    asteroids[i]->Update();
-                    asteroids[i]->Update();
-                    asteroids[i]->Update();*/
-                }
-
-
-
-
+                bool lives = asteroids[i]->Update();
             }
+
             for (int i = 0; i < shoots.size(); i++) {
-                shoots[i]->Update();
+                bool lives = shoots[i]->Update();
+                if (!lives) {
+                    delete shoots[i];
+                    shoots.erase(shoots.begin() +i);
+                }
             }
-            // TODO: make this an iterator
-            /*
 
-            for (int i = 0; i < objects.size(); i++) {
-                Object* currentObject = objects[i];
-                currentObject->Update();
-                
-            };
-            */
-
-            for (int i = 0; i < shoots.size(); i++){
+            for (int i = 0; i < shoots.size(); i++) {
                 Shoot* shoot = shoots[i];
-                    // if the shoot it ouside the boundaries
-                    if(
-                        (shoot->x * shoot->y) < 0 ||
-                        shoot->x > SCREEN_W || 
-                        shoot->y > SCREEN_H ) {
-                        
-                        delete shoot;
-                        shoots.erase(shoots.begin() + i);
-
-                    } else {
-
                     for (int j = 0; j < asteroids.size(); j++) {
                         Asteroid * asteroid = asteroids[j];
                         if (
@@ -141,7 +92,7 @@ int main(int argc, char **argv)
                             shoots.erase(shoots.begin() + i);
                             asteroids.erase(asteroids.begin() + j);
                         }
-                    }
+                    
                 }
                     // if it shoot an asteroid:
                     
