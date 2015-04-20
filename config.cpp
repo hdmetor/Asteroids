@@ -1,4 +1,5 @@
 #include "config.h"
+
 const int SCREEN_W = 800;
 const int SCREEN_H = 600;
 const float FPS = 60;

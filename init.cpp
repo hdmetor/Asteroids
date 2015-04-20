@@ -59,5 +59,5 @@ if(!al_init()) {
    al_register_event_source(event_queue, al_get_keyboard_event_source());
    al_clear_to_color(al_map_rgb(0,0,0));
    
-   return 1;
+   return 0;
 }
