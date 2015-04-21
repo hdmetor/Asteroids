@@ -114,6 +114,9 @@ void Spaceship::decelerate(const float delta) {
 }
 
 bool Spaceship::Update() {
+	
+
+
 	Object::Update();
 	if (cylinder) {
 		x = (x % SCREEN_W + SCREEN_W) % SCREEN_W;

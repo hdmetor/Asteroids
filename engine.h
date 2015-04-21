@@ -10,11 +10,24 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
-void CreateAsteoroids(std::vector<Asteroid*>&);
+extern std::vector<Spaceship*> spaceships;
+extern std::vector<Asteroid*> asteroids;
+extern std::vector<Shoot*> shoots;
 
+void CreateAsteoroids(std::vector<Asteroid*>&);
+void UpdateObjects();
+void Redraw();
+
+void DispatchKeys();
+void KeyDown(ALLEGRO_EVENT);
+bool KeyUp(ALLEGRO_EVENT);
+
+bool GameContinues();
 void PrintWinner();
 
 bool IsDestroied(Shoot*, Asteroid*);
 bool IsDestroied(Spaceship*, Asteroid*);
+
+void Cleanup();
 
 #endif
