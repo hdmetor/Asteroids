@@ -223,7 +223,7 @@ void PrintWinner() {
     al_rotate_transform(&transform, 0); 
     al_translate_transform(&transform, 0, 0); 
     al_use_transform(&transform);
-    al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "You is the winner!\n");
+    al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "A winner is you!\n");
     al_flip_display();
     al_rest(2.0);
 };
