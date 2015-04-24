@@ -16,6 +16,7 @@ extern std::vector<Shoot*> shoots;
 
 void CreateAsteoroids(std::vector<Asteroid*>&);
 void UpdateObjects();
+void RepositionSpaceShips();
 void Redraw();
 
 void DispatchKeys();
@@ -29,6 +30,9 @@ void InitGame();
 bool IsDestroied(Shoot*, Asteroid*);
 bool IsDestroied(Spaceship*, Asteroid*);
 
+void CleanupAsteroids();
+void CleanupShoots();
+void CleanupSpaceships();
 void Cleanup();
 
 #endif

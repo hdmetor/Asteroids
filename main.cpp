@@ -41,8 +41,8 @@ int main(int argc, char **argv)
             if ((doexit = !GameContinues())) {
                 break;
             } else {
-            UpdateObjects();
             DispatchKeys();
+            UpdateObjects();
             redraw = true;
             }
         }

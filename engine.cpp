@@ -40,6 +40,8 @@ void CreateAsteoroids(vector<Asteroid*>& asteroids) {
 }
 
 void UpdateObjects() {
+    bool restart = false;
+    //cout << "TICK" << endl;
     for (int i = 0; i < spaceships.size(); i++) {
         bool lives = spaceships[i]->Update();
     }
@@ -58,34 +60,59 @@ void UpdateObjects() {
 
     // Check bullet vs asteroid
     for (int j = 0; j < asteroids.size(); j++) {
-        Asteroid * asteroid = asteroids[j];
-        bool lives = true;
-        for (int i = 0; i < shoots.size(); i++) {
-            Shoot* shoot = shoots[i];
-            if (lives && IsDestroied(shoot, asteroid)) {
-                delete shoot;
-                shoots.erase(shoots.begin() + i);
-                lives = false;
-            }
-        }   
-
-        // Check Asteroid vs Spaceship
-        for (int i = 0; i <= spaceships.size(); i++) {
-            if (lives) {
-                if (IsDestroied(spaceships[i], asteroids[j])) {
-                    spaceships[i]->lives -= 1;
-                    cout << "Lives: " << spaceships[i]->lives << endl;
+        //cout << "in asteroids "<< restart << endl;
+        if (!restart) {
+            //cout << "skipping this? if " << !restart << endl;
+            Asteroid * asteroid = asteroids[j];
+            bool lives = true;
+            for (int i = 0; i < shoots.size(); i++) {
+                Shoot* shoot = shoots[i];
+                if (lives && IsDestroied(shoot, asteroid)) {
+                    delete shoot;
+                    shoots.erase(shoots.begin() + i);
+                    lives = false;
                 }
-            }
-        }  
+            }   
 
-        // if the asteroid was destroied, we remove it
-        if (!lives) {
-            delete asteroids[j];
-            asteroids.erase(asteroids.begin() + j);
-        }   
+            // Check Asteroid vs Spaceship
+            for (int i = 0; i <= spaceships.size(); i++) {
+                if (lives && !restart) {
+                    if (IsDestroied(spaceships[i], asteroids[j])) {
+                        spaceships[i]->lives -= 1;
+                        restart = true;
+                        cout << "Lives: " << spaceships[i]->lives << endl;
+                        continue;
+                        
+                    }
+                }
+            }  
+
+            // if the asteroid was destroied, we remove it
+            if (!lives && !restart) {
+                delete asteroids[j];
+                asteroids.erase(asteroids.begin() + j);
+            }   
+        }
     }
 
+    //cout << "ok restarted: " << endl;
+    if (restart) {
+        cout << "ast num: " << asteroids.size() << endl;
+        CleanupAsteroids();
+        //CleanupShoots();
+        cout << "BOOM" << endl;
+        //RepositionSpaceShips();
+        //CreateAsteoroids(asteroids);
+        return;
+    }
+
+}
+
+void RepositionSpaceShips() {
+    for (int i = 0; i < spaceships.size(); i++) {
+        spaceships[i]->x = 300 + 2* i;
+        spaceships[i]->y = 300 + 2* i;
+    }
 }
 
 void Redraw() {
@@ -241,14 +268,30 @@ void PrintWinner() {
     al_rest(2.0);
 };
 
-void Cleanup() {
+void CleanupSpaceships() {
     for (int i = 0; i < spaceships.size(); i++) {
         delete spaceships[i];
-    }
+    } 
+    spaceships.clear();
+}
+
+void CleanupAsteroids() {
     for (int i = 0; i < asteroids.size(); i++) {
+        cout <<  "erasing" << i << endl;
         delete asteroids[i];
     }
+    asteroids.clear();
+}
+
+void CleanupShoots() {
     for (int i = 0; i < shoots.size(); i++) {
         delete shoots[i];
     }
+    shoots.clear();
+}
+
+void Cleanup() {
+    CleanupSpaceships();
+    CleanupAsteroids();
+    CleanupShoots();
 }
