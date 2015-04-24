@@ -216,6 +216,13 @@ bool GameContinues() {
     }
 }
 
+void InitGame() {
+    float spaceshipStartSpeed  = 0;
+    Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
+    spaceships.push_back(spaceship);
+    CreateAsteoroids(asteroids);
+}
+
 void PrintWinner() {
     al_clear_to_color(al_map_rgb(0, 0, 0 ));
     ALLEGRO_TRANSFORM transform;

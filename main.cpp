@@ -27,11 +27,8 @@ int main(int argc, char **argv)
     if (init()) {
         return -1;
     }
-    float spaceshipStartSpeed  = 0;
-    Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
-    spaceships.push_back(spaceship);
 
-    CreateAsteoroids(asteroids);
+    InitGame();
 
     al_flip_display();
     al_start_timer(timer);

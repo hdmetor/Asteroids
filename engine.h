@@ -24,6 +24,7 @@ bool KeyUp(ALLEGRO_EVENT);
 
 bool GameContinues();
 void PrintWinner();
+void InitGame();
 
 bool IsDestroied(Shoot*, Asteroid*);
 bool IsDestroied(Spaceship*, Asteroid*);
