@@ -9,3 +9,4 @@ const bool cylinder = true;
 const bool torus = true;
 const float maxSpeed = 7;
 const int startingLives = 3;
+const int numPlayer = 1;

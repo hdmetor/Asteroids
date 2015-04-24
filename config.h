@@ -10,5 +10,6 @@ extern const bool cylinder;
 extern const bool torus;
 extern const float maxSpeed;
 extern const int startingLives;
+extern const int numPlayer;
 
 #endif

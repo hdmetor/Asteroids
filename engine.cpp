@@ -218,8 +218,10 @@ bool GameContinues() {
 
 void InitGame() {
     float spaceshipStartSpeed  = 0;
-    Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
-    spaceships.push_back(spaceship);
+    for (int i = 0; i < numPlayer; i++) {
+        Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
+        spaceships.push_back(spaceship);
+    }
     CreateAsteoroids(asteroids);
 }
 
