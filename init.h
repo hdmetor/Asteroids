@@ -13,6 +13,6 @@ extern ALLEGRO_BITMAP *bouncer;
 extern ALLEGRO_EVENT_QUEUE *event_queue;
 extern ALLEGRO_FONT *font;
 
-int init( float fps = FPS,  int width = SCREEN_W,  int height = SCREEN_H);
+bool InitAllegro( float fps = FPS,  int width = SCREEN_W,  int height = SCREEN_H);
 
 #endif

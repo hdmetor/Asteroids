@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     
     bool redraw = true;
     bool doexit = false;
-    if (init()) {
+    if (!InitAllegro()) {
         return -1;
     }
 
