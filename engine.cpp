@@ -62,11 +62,9 @@ void UpdateObjects() {
         bool lives = true;
         for (int i = 0; i < shoots.size(); i++) {
             Shoot* shoot = shoots[i];
-            if (IsDestroied(shoot, asteroid)) {
+            if (lives && IsDestroied(shoot, asteroid)) {
                 delete shoot;
-                delete asteroids[j];
                 shoots.erase(shoots.begin() + i);
-                asteroids.erase(asteroids.begin() + j);
                 lives = false;
             }
         }   
@@ -79,7 +77,13 @@ void UpdateObjects() {
                     cout << "Lives: " << spaceships[i]->lives << endl;
                 }
             }
-        }     
+        }  
+
+        // if the asteroid was destroied, we remove it
+        if (!lives) {
+            delete asteroids[j];
+            asteroids.erase(asteroids.begin() + j);
+        }   
     }
 
 }
