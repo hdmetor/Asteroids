@@ -34,14 +34,12 @@ void CreateAsteoroids(vector<Asteroid*>& asteroids) {
         float speed = 2;
         float spin = .009;
         Asteroid* asteroid = new Asteroid(x, y, speed, dir, spin);
-        //objects.push_back(asteroid);
         asteroids.push_back(asteroid);
    }
 }
 
 void UpdateObjects() {
     bool restart = false;
-    //cout << "TICK" << endl;
     for (int i = 0; i < spaceships.size(); i++) {
         bool lives = spaceships[i]->Update();
     }
@@ -60,9 +58,7 @@ void UpdateObjects() {
 
     // Check bullet vs asteroid
     for (int j = 0; j < asteroids.size(); j++) {
-        //cout << "in asteroids "<< restart << endl;
         if (!restart) {
-            //cout << "skipping this? if " << !restart << endl;
             Asteroid * asteroid = asteroids[j];
             bool lives = true;
             for (int i = 0; i < shoots.size(); i++) {
@@ -95,14 +91,12 @@ void UpdateObjects() {
         }
     }
 
-    //cout << "ok restarted: " << endl;
+
     if (restart) {
-        cout << "ast num: " << asteroids.size() << endl;
         CleanupAsteroids();
-        //CleanupShoots();
-        cout << "BOOM" << endl;
-        //RepositionSpaceShips();
-        //CreateAsteoroids(asteroids);
+        CleanupShoots();
+        RepositionSpaceShips();
+        CreateAsteoroids(asteroids);
         return;
     }
 
@@ -277,7 +271,6 @@ void CleanupSpaceships() {
 
 void CleanupAsteroids() {
     for (int i = 0; i < asteroids.size(); i++) {
-        cout <<  "erasing" << i << endl;
         delete asteroids[i];
     }
     asteroids.clear();
