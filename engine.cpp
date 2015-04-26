@@ -275,6 +275,9 @@ bool GameContinues() {
     if (asteroids.size() == 0) {
         PrintWinner();
         return false;
+    } else if (spaceships[0]-> lives < 0) {
+        GameOver();
+        return false;
     } else {
         return true;
     }
@@ -325,11 +328,25 @@ void PrintWinner() {
              al_map_rgb(0,0,255), 
              600, 120, ALLEGRO_ALIGN_RIGHT, 
              "such asteroids");
-
-
     al_flip_display();
     al_rest(2.0);
 };
+
+void GameOver() {
+    al_clear_to_color(al_map_rgb(0, 0, 0 ));
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform); 
+    al_rotate_transform(&transform, 0); 
+    al_translate_transform(&transform, 0, 0); 
+    al_use_transform(&transform);
+    al_draw_text(
+                 font, 
+                 al_map_rgb(120,120,120), 
+                 400, 200, ALLEGRO_ALIGN_RIGHT, 
+                 "Game Over!");
+    al_flip_display();
+    al_rest(2.0);     
+}
 
 void CleanupSpaceships() {
     for (int i = 0; i < spaceships.size(); i++) {

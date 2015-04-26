@@ -20,6 +20,7 @@ void RepositionSpaceShips();
 void Redraw();
 void DrawPoints();
 void DrawLives();
+void GameOver();
 
 void DispatchKeys();
 void KeyDown(ALLEGRO_EVENT);
