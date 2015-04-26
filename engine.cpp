@@ -124,12 +124,12 @@ void Redraw() {
     for (int i = 0; i < shoots.size(); i++) {
         shoots[i]->Draw();
     }
-    DrawPoints(spaceships);
+    DrawPoints();
     DrawLives();
     al_flip_display();
 }
 
-void DrawPoints(vector<Spaceship*> spaceships) {
+void DrawPoints() {
     ALLEGRO_TRANSFORM transform;
     al_identity_transform(&transform); 
     al_rotate_transform(&transform, 0); 
@@ -141,9 +141,25 @@ void DrawPoints(vector<Spaceship*> spaceships) {
     al_draw_text(
                  font, 
                  al_map_rgb(0, 0, 255), 
-                 40, 50, ALLEGRO_ALIGN_RIGHT, 
+                 70, 50, ALLEGRO_ALIGN_RIGHT, 
                  buffer); 
     // In case of multiplayer, draw points here  
+}
+
+void DrawLives() {
+    int s = 0;
+    ALLEGRO_COLOR color = al_map_rgb(0, 255, 0);
+    for (int i = 0; i < spaceships[s]->lives; i++){
+        ALLEGRO_TRANSFORM transform; 
+        al_identity_transform(&transform); 
+        al_rotate_transform(&transform, 0); 
+        al_translate_transform(&transform, 20 * (i + 1), 20); 
+        al_use_transform(&transform);
+        al_draw_line(-8, 9, 0, -11, color, 3.0f); 
+        al_draw_line(0, -11, 8, 9, color, 3.0f); 
+        al_draw_line(-6, 4, -1, 4, color, 3.0f); 
+        al_draw_line(6, 4, 1, 4, color, 3.0f);
+    }
 }
 
 bool IsDestroied(Shoot* shoot, Asteroid* asteroid) {
