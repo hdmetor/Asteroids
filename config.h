@@ -11,5 +11,6 @@ extern const bool torus;
 extern const float maxSpeed;
 extern const int startingLives;
 extern const int numPlayer;
+extern const int secondsOfInvincibility;
 
 #endif

@@ -75,12 +75,13 @@ void UpdateObjects() {
             }   
 
             // Check Asteroid vs Spaceship
+            // spaceship is invincible in the for the first 2 seconds
             for (int i = 0; i <= spaceships.size(); i++) {
                 if (lives && !restart) {
-                    if (IsDestroied(spaceships[i], asteroids[j])) {
+                    if (spaceships[i]->age > secondsOfInvincibility * FPS &&
+                        IsDestroied(spaceships[i], asteroids[j])) {
                         spaceships[i]->lives -= 1;
                         restart = true;
-                        cout << "Lives: " << spaceships[i]->lives << endl;
                         continue;
                         
                     }
@@ -97,10 +98,10 @@ void UpdateObjects() {
 
 
     if (restart) {
-        CleanupAsteroids();
-        CleanupShoots();
+        //CleanupAsteroids();
+        //CleanupShoots();
         RepositionSpaceShips();
-        CreateAsteoroids(asteroids);
+        //CreateAsteoroids(asteroids);
         return;
     }
 
@@ -110,6 +111,8 @@ void RepositionSpaceShips() {
     for (int i = 0; i < spaceships.size(); i++) {
         spaceships[i]->x = 300 + 2* i;
         spaceships[i]->y = 300 + 2* i;
+        spaceships[i]->speed = 0;
+        spaceships[i]->age = 0;
     }
 }
 

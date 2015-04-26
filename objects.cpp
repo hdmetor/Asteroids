@@ -62,6 +62,7 @@ Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->direction = 0;
 	this->lives = startingLives;
 	this->points = 0;
+	this->age = 0;
 }
 
 Spaceship::~Spaceship() {
@@ -115,9 +116,6 @@ void Spaceship::decelerate(const float delta) {
 }
 
 bool Spaceship::Update() {
-	
-
-
 	Object::Update();
 	if (cylinder) {
 		x = (x % SCREEN_W + SCREEN_W) % SCREEN_W;
@@ -125,10 +123,11 @@ bool Spaceship::Update() {
 	if (torus) {
 		y = (y % SCREEN_H + SCREEN_H) % SCREEN_H;
 	}
-	// check for collisions
-	if (true) {
-		return true;
+	if (age <= secondsOfInvincibility * FPS) {
+		age += 1;
 	}
+	// check for collisions is on engine.cpp
+	return true;
 }
 
 // Asteroid
