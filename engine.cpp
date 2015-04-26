@@ -4,6 +4,7 @@
 #include "init.h"
 #include <vector>
 #include <iostream>
+#include <stdlib.h>
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
@@ -64,6 +65,9 @@ void UpdateObjects() {
             for (int i = 0; i < shoots.size(); i++) {
                 Shoot* shoot = shoots[i];
                 if (lives && IsDestroied(shoot, asteroid)) {
+                    // SplitAsteroid();
+                    cout << "bum" << asteroid->stage<< endl;
+                    spaceships[shoot->player]->points += 50*(1 + asteroid->stage);
                     delete shoot;
                     shoots.erase(shoots.begin() + i);
                     lives = false;
@@ -120,7 +124,26 @@ void Redraw() {
     for (int i = 0; i < shoots.size(); i++) {
         shoots[i]->Draw();
     }
-al_flip_display();
+    DrawPoints(spaceships);
+    DrawLives();
+    al_flip_display();
+}
+
+void DrawPoints(vector<Spaceship*> spaceships) {
+    ALLEGRO_TRANSFORM transform;
+    al_identity_transform(&transform); 
+    al_rotate_transform(&transform, 0); 
+    al_translate_transform(&transform, 0, 0); 
+    al_use_transform(&transform);
+    int bufferSize = 40;
+    char buffer[bufferSize];
+    sprintf(buffer, "%d", spaceships[0]->points);
+    al_draw_text(
+                 font, 
+                 al_map_rgb(0, 0, 255), 
+                 40, 50, ALLEGRO_ALIGN_RIGHT, 
+                 buffer); 
+    // In case of multiplayer, draw points here  
 }
 
 bool IsDestroied(Shoot* shoot, Asteroid* asteroid) {
@@ -257,7 +280,37 @@ void PrintWinner() {
     al_rotate_transform(&transform, 0); 
     al_translate_transform(&transform, 0, 0); 
     al_use_transform(&transform);
-    al_draw_text(font, al_map_rgb(120,120,120), 300, 400, ALLEGRO_ALIGN_RIGHT, "A winner is you!\n");
+    int bufferSize = 40;
+    char buffer[bufferSize];
+    sprintf(buffer, "Total points: %d", spaceships[0]->points);
+    al_draw_text(
+                 font, 
+                 al_map_rgb(120,120,120), 
+                 400, 200, ALLEGRO_ALIGN_RIGHT, 
+                 "A winner is you!");   
+    al_draw_text(
+                 font, 
+                 al_map_rgb(120,120,120), 
+                 400, 250, ALLEGRO_ALIGN_RIGHT, 
+                 buffer);
+
+    al_draw_text(
+             font, 
+             al_map_rgb(0,255,0), 
+             120, 120, ALLEGRO_ALIGN_RIGHT, 
+             "very winner");
+    al_draw_text(
+             font, 
+             al_map_rgb(255,0,0), 
+             450, 450, ALLEGRO_ALIGN_RIGHT, 
+             "much points");
+    al_draw_text(
+             font, 
+             al_map_rgb(0,0,255), 
+             600, 120, ALLEGRO_ALIGN_RIGHT, 
+             "such asteroids");
+
+
     al_flip_display();
     al_rest(2.0);
 };

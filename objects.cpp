@@ -61,6 +61,7 @@ Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->name = 1;
 	this->direction = 0;
 	this->lives = startingLives;
+	this->points = 0;
 }
 
 Spaceship::~Spaceship() {
@@ -140,6 +141,7 @@ Asteroid::Asteroid(int x, int y, float speed, float direction, float spin): Obje
 	this->spin = spin;
 	this->rotated = 0;
 	this->name = 2;
+	this->stage = 0;
 }
 
 Asteroid::~Asteroid() {
@@ -195,6 +197,7 @@ Shoot::Shoot(int x, int y, float speed, float direction) : Object(x, y, speed) {
 	this->color = al_map_rgb(0, 255, 255);
 	this->direction = direction;
 	this->name = 3;
+	this->player = 0; // support for multiplayer?
 };
 
 Shoot::~Shoot() {

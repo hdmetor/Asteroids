@@ -41,6 +41,7 @@ public:
     bool Update();
     void DebugPrint();
     friend bool IsDestroied(Shoot*, Asteroid*);
+    int player;
 };
 
 class Spaceship : public Object {
@@ -57,6 +58,7 @@ public:
     void DebugPrint();
     friend bool IsDestroied(Spaceship*, Asteroid*);
     int lives;
+    int points;
 };
 
 class Asteroid : public Object {
@@ -70,6 +72,7 @@ public:
     void DebugPrint();
     friend bool IsDestroied(Shoot*, Asteroid*);
     friend bool IsDestroied(Spaceship*, Asteroid*);
+    int stage;
 };
 
 #endif

@@ -18,6 +18,7 @@ void CreateAsteoroids(std::vector<Asteroid*>&);
 void UpdateObjects();
 void RepositionSpaceShips();
 void Redraw();
+void DrawPoints(const std::vector<Spaceship*>);
 
 void DispatchKeys();
 void KeyDown(ALLEGRO_EVENT);
