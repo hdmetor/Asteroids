@@ -70,16 +70,30 @@ Spaceship::~Spaceship() {
 }
 
 void Spaceship::Draw() {
-	ALLEGRO_COLOR color = this->color;
-	ALLEGRO_TRANSFORM transform; 
-	al_identity_transform(&transform); 
-	al_rotate_transform(&transform, direction); 
-	al_translate_transform(&transform, x, y); 
-	al_use_transform(&transform);
-	al_draw_line(-8, 9, 0, -11, color, 3.0f); 
-	al_draw_line(0, -11, 8, 9, color, 3.0f); 
-	al_draw_line(-6, 4, -1, 4, color, 3.0f); 
-	al_draw_line(6, 4, 1, 4, color, 3.0f);
+	if (age > 120 || age % 2 == 0) {
+		ALLEGRO_COLOR color = this->color;
+		ALLEGRO_TRANSFORM transform; 
+		al_identity_transform(&transform); 
+		al_rotate_transform(&transform, direction); 
+		al_translate_transform(&transform, x, y); 
+		al_use_transform(&transform);
+		al_draw_line(-8, 9, 0, -11, color, 3.0f); 
+		al_draw_line(0, -11, 8, 9, color, 3.0f); 
+		al_draw_line(-6, 4, -1, 4, color, 3.0f); 
+		al_draw_line(6, 4, 1, 4, color, 3.0f);
+	} else {
+		ALLEGRO_COLOR color = al_map_rgb(0, 255, 0);
+		ALLEGRO_TRANSFORM transform; 
+		al_identity_transform(&transform); 
+		al_rotate_transform(&transform, direction); 
+		al_translate_transform(&transform, x, y); 
+		al_use_transform(&transform);
+		al_draw_line(-8, 9, 0, -11, color, 3.0f); 
+		al_draw_line(0, -11, 8, 9, color, 3.0f); 
+		al_draw_line(-6, 4, -1, 4, color, 3.0f); 
+		al_draw_line(6, 4, 1, 4, color, 3.0f);
+	}
+
 }
 
 void Spaceship::moveLeft(const float delta) {
