@@ -61,6 +61,7 @@ public:
     int lives;
     int points;
     int age;
+    float acceleration;
 };
 
 class Asteroid : public Object {

@@ -12,5 +12,7 @@ extern const float maxSpeed;
 extern const int startingLives;
 extern const int numPlayer;
 extern const int secondsOfInvincibility;
+extern const float spaceshipStartSpeed;
+extern const float maxAcceleration;
 
 #endif

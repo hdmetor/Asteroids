@@ -11,3 +11,5 @@ const float maxSpeed = 7;
 const int startingLives = 3;
 const int numPlayer = 1;
 const int secondsOfInvincibility = 2;
+const float spaceshipStartSpeed  = 0.;
+const float maxAcceleration = 3.;

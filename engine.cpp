@@ -212,6 +212,7 @@ void DispatchKeys() {
     if(pressedKeys[KEY_SPACE]) {
         Shoot* blast = spaceships[0]->Fire();
         shoots.push_back(blast);
+        pressedKeys[KEY_SPACE] = false;
     }
 }
 
@@ -244,6 +245,7 @@ bool KeyUp(ALLEGRO_EVENT event) {
     switch(event.keyboard.keycode) {
         case ALLEGRO_KEY_UP:
             pressedKeys[KEY_UP] = false;
+            spaceships[0]->acceleration = 0;
             return false;
             break;
 
@@ -287,7 +289,6 @@ bool GameContinues() {
 }
 
 void InitGame() {
-    float spaceshipStartSpeed  = 0;
     for (int i = 0; i < numPlayer; i++) {
         Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
         spaceships.push_back(spaceship);

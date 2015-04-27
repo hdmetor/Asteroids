@@ -116,20 +116,34 @@ Shoot* Spaceship::Fire() {
 }
 
 void Spaceship::accelerate(const float delta) {
-	speed += deltaSpeed;
-	if (speed > maxSpeed) {
-		speed = maxSpeed;
+	acceleration += delta;
+	if (acceleration > maxAcceleration) {
+		acceleration = maxAcceleration;
 	}
 }
 
 void Spaceship::decelerate(const float delta) {
-	speed -= deltaSpeed / 2;
-	if (speed < 0) {
-		speed = 0;
+	if (speed == 0) {
+		return;
+	}
+	acceleration -= delta / 2;
+	if (acceleration < - maxAcceleration) {
+		acceleration = - maxAcceleration;
 	}
 }
 
 bool Spaceship::Update() {
+	cout << "speed init: "<< speed << endl;
+	speed += acceleration;
+
+	cout << "speed updated: "<< speed << endl;
+	if (speed > maxSpeed) {
+		cout << "TOO FAST" << endl;
+		speed = maxSpeed;
+	}
+	if (speed < 0) {
+		speed = 0;
+	}
 	Object::Update();
 	if (cylinder) {
 		x = (x % SCREEN_W + SCREEN_W) % SCREEN_W;
