@@ -9,11 +9,7 @@
 #include "config.h"
 #include <cstdlib>
 
-
 using namespace std;
-//ALLEGRO_COLOR red = al_map_rgb(255,0,0);
-
-int wrap (int num, int max);
 
 Object::Object (int x, int y, float speed) {
 	this->x = x;
@@ -31,14 +27,8 @@ Object::~Object() {
 bool Object::Update() {
 	int dx = (int)speed * sin(direction);
 	int dy = (int)- speed * cos(direction);
-	//cout << "x: SIN " << sin(direction) <<" "<< speed * sin(direction)<< endl;
-	//cout << "y: COS " << cos(direction) <<" "<< speed * cos(direction) <<endl;
-	//cout << y << "\t"<< pene <<endl;
 	x += dx;
 	y += dy; 
-	//cout << "again\t" << y <<endl;
-	//x += speed * dx;
-	//y += speed * dy;
 	return true;
 }
 
@@ -98,16 +88,10 @@ void Spaceship::Draw() {
 
 void Spaceship::moveLeft(const float delta) {
 	this->direction -= delta;
-	//direction %= M_PI;
-	//updateAndWrap(x, -delta, cylinder, SCREEN_W);
-	
 }
 
 void Spaceship::moveRight(const float delta) {
 	this->direction += delta;
-	//direction %= M_PI;
-	//updateAndWrap(x, delta, cylinder, SCREEN_W);
-
 }
 
 Shoot* Spaceship::Fire() {
@@ -195,7 +179,6 @@ bool Asteroid::Update() {
 }
 
 void Asteroid::Draw() {
-	//color = this->color;
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
 	al_rotate_transform(&transform, direction + rotated); 
@@ -251,9 +234,4 @@ bool Shoot::Update() {
 void Shoot::DebugPrint() {
 	cout << "The follwing is a shoot!" << endl;
 	Object::DebugPrint();
-}
-
-int wrap (int num, int max) {
-	cout << num << max << endl;
-	return ((num % max + max) % max);
 }

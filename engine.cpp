@@ -73,7 +73,7 @@ void UpdateObjects() {
                 }
             }   
 
-            // Check Asteroid vs Spaceship
+            // check Asteroid vs Spaceship
             // spaceship is invincible in the for the first 2 seconds
             for (int i = 0; i <= spaceships.size(); i++) {
                 if (lives && !restart) {
@@ -100,10 +100,7 @@ void UpdateObjects() {
     }
 
     if (restart) {
-        //CleanupAsteroids();
-        //CleanupShoots();
         RepositionSpaceShips();
-        //CreateAsteoroids(asteroids);
         return;
     }
 
