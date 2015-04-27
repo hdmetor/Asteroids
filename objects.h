@@ -9,7 +9,6 @@
 
 const float deltaSpeed = .5;
 const float deltaDegree = .09;
-//const int deltaDegree = 1;
 
 // forward declaration for IsDestroied function
 class Asteroid;
