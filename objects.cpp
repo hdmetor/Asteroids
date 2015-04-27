@@ -126,7 +126,7 @@ void Spaceship::decelerate(const float delta) {
 	if (speed == 0) {
 		return;
 	}
-	acceleration -= delta / 2;
+	acceleration -= delta;
 	if (acceleration < - maxAcceleration) {
 		acceleration = - maxAcceleration;
 	}

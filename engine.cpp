@@ -26,8 +26,8 @@ bool pressedKeys[6] = { false, false, false, false, false, false };
 
 void CreateAsteoroids(vector<Asteroid*>& asteroids, int num) {
     for (int i = 0; i < num; i++) {
-        int x = rand() % 760  + 20;
-        int y = rand() % 560 + 20;
+        int x = rand() % (SCREEN_W - 20) + 20;
+        int y = rand() % (SCREEN_H - 20) + 20;
         //int x = 150;
         //int y = 100;
         float dir = .6 + rand() % 700 / 100;
@@ -66,7 +66,6 @@ void UpdateObjects() {
                 Shoot* shoot = shoots[i];
                 if (lives && IsDestroied(shoot, asteroid)) {
                     // SplitAsteroid();
-                    cout << "bum" << asteroid->stage<< endl;
                     spaceships[shoot->player]->points += 50*(1 + asteroid->stage);
                     delete shoot;
                     shoots.erase(shoots.begin() + i);
@@ -96,7 +95,7 @@ void UpdateObjects() {
         }
     }
 
-    if (rand() % 80 == 0) {
+    if (rand() % 95 == 0) {
         CreateAsteoroids(asteroids, 1);
     }
 
@@ -143,7 +142,7 @@ void DrawPoints() {
     al_use_transform(&transform);
     int bufferSize = 40;
     char buffer[bufferSize];
-    sprintf(buffer, "%d", spaceships[0]->points);
+    sprintf(buffer, "Points: %d", spaceships[0]->points);
     al_draw_text(
                  font, 
                  al_map_rgb(0, 0, 255), 
