@@ -14,7 +14,7 @@ extern std::vector<Spaceship*> spaceships;
 extern std::vector<Asteroid*> asteroids;
 extern std::vector<Shoot*> shoots;
 
-void CreateAsteoroids(std::vector<Asteroid*>&);
+void CreateAsteoroids(std::vector<Asteroid*>&, int num);
 void UpdateObjects();
 void RepositionSpaceShips();
 void Redraw();

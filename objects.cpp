@@ -133,12 +133,8 @@ void Spaceship::decelerate(const float delta) {
 }
 
 bool Spaceship::Update() {
-	cout << "speed init: "<< speed << endl;
 	speed += acceleration;
-
-	cout << "speed updated: "<< speed << endl;
 	if (speed > maxSpeed) {
-		cout << "TOO FAST" << endl;
 		speed = maxSpeed;
 	}
 	if (speed < 0) {

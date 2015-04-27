@@ -24,8 +24,8 @@ enum MYKEYS {
 
 bool pressedKeys[6] = { false, false, false, false, false, false };
 
-void CreateAsteoroids(vector<Asteroid*>& asteroids) {
-    for (int i = 0; i < asteoridsNumber; i++) {
+void CreateAsteoroids(vector<Asteroid*>& asteroids, int num) {
+    for (int i = 0; i < num; i++) {
         int x = rand() % 760  + 20;
         int y = rand() % 560 + 20;
         //int x = 150;
@@ -96,6 +96,9 @@ void UpdateObjects() {
         }
     }
 
+    if (rand() % 80 == 0) {
+        CreateAsteoroids(asteroids, 1);
+    }
 
     if (restart) {
         //CleanupAsteroids();
@@ -293,7 +296,7 @@ void InitGame() {
         Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
         spaceships.push_back(spaceship);
     }
-    CreateAsteoroids(asteroids);
+    CreateAsteoroids(asteroids, asteoridsNumber);
 }
 
 void PrintWinner() {
