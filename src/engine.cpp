@@ -290,6 +290,7 @@ bool GameContinues() {
 void InitGame() {
     for (int i = 0; i < numPlayer; i++) {
         Spaceship* spaceship = new Spaceship(300,300, spaceshipStartSpeed);
+        spaceship->points = 0;
         spaceships.push_back(spaceship);
     }
     CreateAsteoroids(asteroids, asteoridsNumber);
