@@ -40,7 +40,7 @@ if(!al_init()) {
 
    al_init_font_addon(); 
    al_init_ttf_addon();
-   font = al_load_ttf_font("comicsans.ttf", 16, 0);
+   font = al_load_ttf_font("src/comicsans.ttf", 16, 0);
 
    if (!font){
       fprintf(stderr, "Could not load font.\n");

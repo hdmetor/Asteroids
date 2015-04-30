@@ -10,10 +10,10 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 // Self
-#include "init.h"
-#include "objects.h"
-#include "config.h"
-#include "engine.h"
+#include "src/init.h"
+#include "src/objects.h"
+#include "src/config.h"
+#include "src/engine.h"
 
 using namespace std;
 
