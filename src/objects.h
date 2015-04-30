@@ -28,7 +28,6 @@ public:
     double direction; 
     float speed;
     int live; 
-    int name;
     ALLEGRO_COLOR color;
 };
 

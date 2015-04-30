@@ -17,8 +17,7 @@ Object::Object (int x, int y, float speed) {
 	this->direction = 0;
 	this->speed = speed;
 	this->live = 1;
-	this->color = al_map_rgb(255,255,255);
-	this->name = 0;
+	this->color = al_map_rgb(0, 0, 0);
 }
 
 Object::~Object() {
@@ -48,10 +47,8 @@ void Spaceship::DebugPrint() {
 
 Spaceship::Spaceship(int x, int y, float speed): Object(x, y, direction) {
 	this->color = al_map_rgb(255, 0, 0);
-	this->name = 1;
 	this->direction = 0;
 	this->lives = startingLives;
-	this->points = 0;
 	this->age = 0;
 }
 
@@ -141,13 +138,12 @@ bool Spaceship::Update() {
 // Asteroid
 Asteroid::Asteroid(int x, int y, float speed, float direction, float spin): Object(x, y, direction) {
 	this->x = x;
-	this->y =y;
+	this->y = y;
 	this->direction = direction;
 	this->color = al_map_rgb(0, 0, 255);
 	this->speed = speed;
 	this->spin = spin;
 	this->rotated = 0;
-	this->name = 2;
 	this->stage = 0;
 }
 
@@ -202,7 +198,6 @@ void Asteroid::Draw() {
 Bullet::Bullet(int x, int y, float speed, float direction) : Object(x, y, speed) {
 	this->color = al_map_rgb(0, 255, 255);
 	this->direction = direction;
-	this->name = 3;
 	this->player = 0; // support for multiplayer?
 };
 
