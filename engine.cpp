@@ -16,7 +16,7 @@ using namespace std;
 
 vector<Spaceship*> spaceships;
 vector<Asteroid*> asteroids;
-vector<Shoot*> shoots;
+vector<Bullet*> bullets;
 
 enum MYKEYS {
     KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_ESCAPE, KEY_SPACE
@@ -49,11 +49,11 @@ void UpdateObjects() {
         bool lives = asteroids[i]->Update();
     }
 
-    for (int i = 0; i < shoots.size(); i++) {
-        bool lives = shoots[i]->Update();
+    for (int i = 0; i < bullets.size(); i++) {
+        bool lives = bullets[i]->Update();
         if (!lives) {
-            delete shoots[i];
-            shoots.erase(shoots.begin() +i);
+            delete bullets[i];
+            bullets.erase(bullets.begin() +i);
         }
     }
 
@@ -62,13 +62,13 @@ void UpdateObjects() {
         if (!restart) {
             Asteroid * asteroid = asteroids[j];
             bool lives = true;
-            for (int i = 0; i < shoots.size(); i++) {
-                Shoot* shoot = shoots[i];
-                if (lives && IsDestroied(shoot, asteroid)) {
+            for (int i = 0; i < bullets.size(); i++) {
+                Bullet* bullet = bullets[i];
+                if (lives && IsDestroied(bullet, asteroid)) {
                     // SplitAsteroid();
-                    spaceships[shoot->player]->points += 50*(1 + asteroid->stage);
-                    delete shoot;
-                    shoots.erase(shoots.begin() + i);
+                    spaceships[bullet->player]->points += 50*(1 + asteroid->stage);
+                    delete bullet;
+                    bullets.erase(bullets.begin() + i);
                     lives = false;
                 }
             }   
@@ -123,8 +123,8 @@ void Redraw() {
     for (int i = 0; i < asteroids.size(); i++) {
         asteroids[i]->Draw();
     }
-    for (int i = 0; i < shoots.size(); i++) {
-        shoots[i]->Draw();
+    for (int i = 0; i < bullets.size(); i++) {
+        bullets[i]->Draw();
     }
     DrawPoints();
     DrawLives();
@@ -164,12 +164,12 @@ void DrawLives() {
     }
 }
 
-bool IsDestroied(Shoot* shoot, Asteroid* asteroid) {
+bool IsDestroied(Bullet* bullet, Asteroid* asteroid) {
     if (
-        shoot->x > asteroid->x - 25 &&
-        shoot->x < asteroid->x + 20 &&
-        shoot->y > asteroid->y - 20 &&
-        shoot->y < asteroid->y + 20
+        bullet->x > asteroid->x - 25 &&
+        bullet->x < asteroid->x + 20 &&
+        bullet->y > asteroid->y - 20 &&
+        bullet->y < asteroid->y + 20
         ) {
         return true;
     } else {
@@ -209,8 +209,8 @@ void DispatchKeys() {
     }
 
     if(pressedKeys[KEY_SPACE]) {
-        Shoot* blast = spaceships[0]->Fire();
-        shoots.push_back(blast);
+        Bullet* blast = spaceships[0]->Fire();
+        bullets.push_back(blast);
         pressedKeys[KEY_SPACE] = false;
     }
 }
@@ -365,15 +365,15 @@ void CleanupAsteroids() {
     asteroids.clear();
 }
 
-void CleanupShoots() {
-    for (int i = 0; i < shoots.size(); i++) {
-        delete shoots[i];
+void CleanupBullets() {
+    for (int i = 0; i < bullets.size(); i++) {
+        delete bullets[i];
     }
-    shoots.clear();
+    bullets.clear();
 }
 
 void Cleanup() {
     CleanupSpaceships();
     CleanupAsteroids();
-    CleanupShoots();
+    CleanupBullets();
 }

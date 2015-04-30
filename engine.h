@@ -12,7 +12,7 @@
 
 extern std::vector<Spaceship*> spaceships;
 extern std::vector<Asteroid*> asteroids;
-extern std::vector<Shoot*> shoots;
+extern std::vector<Bullet*> bullets;
 
 void CreateAsteoroids(std::vector<Asteroid*>&, int num);
 void UpdateObjects();
@@ -30,11 +30,11 @@ bool GameContinues();
 void PrintWinner();
 void InitGame();
 
-bool IsDestroied(Shoot*, Asteroid*);
+bool IsDestroied(Bullet*, Asteroid*);
 bool IsDestroied(Spaceship*, Asteroid*);
 
 void CleanupAsteroids();
-void CleanupShoots();
+void CleanupBullets();
 void CleanupSpaceships();
 void Cleanup();
 

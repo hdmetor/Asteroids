@@ -32,14 +32,14 @@ public:
     ALLEGRO_COLOR color;
 };
 
-class Shoot : public Object {
+class Bullet : public Object {
 public:
-    Shoot(int x, int y, float speed, float direction);
-    ~Shoot();
+    Bullet(int x, int y, float speed, float direction);
+    ~Bullet();
     void Draw();
     bool Update();
     void DebugPrint();
-    friend bool IsDestroied(Shoot*, Asteroid*);
+    friend bool IsDestroied(Bullet*, Asteroid*);
     int player;
 
 };
@@ -49,7 +49,7 @@ public:
     Spaceship(int x, int y, float speed);
     ~Spaceship();
     void Draw();
-    Shoot* Fire();
+    Bullet* Fire();
     void moveLeft(const float delta = deltaDegree);
     void moveRight(const float delta = deltaDegree);
     void accelerate(const float delta = deltaSpeed);
@@ -72,7 +72,7 @@ public:
     float spin;
     float rotated;
     void DebugPrint();
-    friend bool IsDestroied(Shoot*, Asteroid*);
+    friend bool IsDestroied(Bullet*, Asteroid*);
     friend bool IsDestroied(Spaceship*, Asteroid*);
     int stage;
 };

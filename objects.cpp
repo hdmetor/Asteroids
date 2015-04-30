@@ -94,8 +94,8 @@ void Spaceship::moveRight(const float delta) {
 	this->direction += delta;
 }
 
-Shoot* Spaceship::Fire() {
-	Shoot* blast = new Shoot(x + 20 * sin(direction), y - 20 * cos(direction), maxSpeed + 2 , direction);
+Bullet* Spaceship::Fire() {
+	Bullet* blast = new Bullet(x + 20 * sin(direction), y - 20 * cos(direction), maxSpeed + 2 , direction);
 	return blast;
 }
 
@@ -198,19 +198,19 @@ void Asteroid::Draw() {
 	al_draw_line(0, 15, -20, 20, color, 2.0f);
 }
 
-// Shoot
-Shoot::Shoot(int x, int y, float speed, float direction) : Object(x, y, speed) {
+// Bullet
+Bullet::Bullet(int x, int y, float speed, float direction) : Object(x, y, speed) {
 	this->color = al_map_rgb(0, 255, 255);
 	this->direction = direction;
 	this->name = 3;
 	this->player = 0; // support for multiplayer?
 };
 
-Shoot::~Shoot() {
+Bullet::~Bullet() {
 
 }
 
-void Shoot::Draw () {
+void Bullet::Draw () {
 	ALLEGRO_COLOR color = this->color;
 	ALLEGRO_TRANSFORM transform; 
 	al_identity_transform(&transform); 
@@ -220,7 +220,7 @@ void Shoot::Draw () {
 	al_draw_pixel(0 , 0 , color);
 };
 
-bool Shoot::Update() {
+bool Bullet::Update() {
 	if (!Object::Update()) {
 		return false;
 	}
@@ -231,7 +231,7 @@ bool Shoot::Update() {
 	}
 }
 
-void Shoot::DebugPrint() {
-	cout << "The follwing is a shoot!" << endl;
+void Bullet::DebugPrint() {
+	cout << "The follwing is a bullet!" << endl;
 	Object::DebugPrint();
 }
