@@ -13,7 +13,7 @@ This is not to be considered a polished or production-ready product, just a prot
 
 * Asteroid randomly appear on screen.
 
-* Game ends when either all the asteroids are destroied or when the player loses the life.
+* Game ends when either all the asteroids are destroyed or when the player loses the life.
 
 ## Screenshots:
 
@@ -33,4 +33,4 @@ This is not to be considered a polished or production-ready product, just a prot
 
 * An asteroid should not be able to hurt a ship in the first second or so (in case it gets spawned too near the player).
 
-* When the asteorids explodes, it should create smaller (and faster) asteroids.
+* When an asteroid explodes, it should create smaller (and faster) asteroids.
