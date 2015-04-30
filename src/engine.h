@@ -10,10 +10,6 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
-extern std::vector<Spaceship*> spaceships;
-extern std::vector<Asteroid*> asteroids;
-extern std::vector<Bullet*> bullets;
-
 void CreateAsteoroids(std::vector<Asteroid*>&, int num);
 void UpdateObjects();
 void RepositionSpaceShips();
