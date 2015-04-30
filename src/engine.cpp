@@ -143,7 +143,7 @@ void DrawPoints() {
     al_draw_text(
                  font, 
                  al_map_rgb(0, 0, 255), 
-                 70, 50, ALLEGRO_ALIGN_RIGHT, 
+                 SCREEN_W - 40, 20, ALLEGRO_ALIGN_RIGHT, 
                  buffer); 
     // In case of multiplayer, draw points here  
 }
